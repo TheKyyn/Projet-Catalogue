@@ -38,15 +38,4 @@ export class BroadcastController {
     // Retourner directement les résultats du service
     return results;
   }
-
-  /**
-   * Endpoint temporaire pour insérer des données de test MyETV
-   * Route : GET /broadcast/seed
-   * À supprimer en production !
-   */
-  @Get('seed')
-  async seed() {
-    const result = await this.broadcastService.seedTestData();
-    return result;
-  }
 }

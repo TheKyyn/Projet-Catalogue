@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 // Table contenant les programmes Simply
 // Ces données viennent de l'API Simply et sont stockées dans MyETV
-@Entity('SIMPLY_PROGRAMME')
+@Entity({ name: 'SIMPLY_PROGRAMME', schema: 'ETLMYETV' })
 export class SimplyProgramme {
   // Clé primaire
   @PrimaryColumn({ type: 'integer' })

@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
  * Table BROADCASTS dans MyETV
  * Contient les diffusions de programmes TV avec leurs audiences
  */
-@Entity('BROADCASTS')
+@Entity({ name: 'BROADCASTS', schema: 'ETLMYETV' })
 export class Broadcast {
   // Clé primaire
   @PrimaryColumn({ type: 'number', precision: 38, scale: 0 })

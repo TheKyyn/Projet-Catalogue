@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 // TABLE CRUCIALE : Fait le lien entre les Launches Nota et les données MyETV
 // C'est ici qu'on trouve quel Launch Nota correspond à quel programme Simply
-@Entity('BR_NOTA_LAUNCH')
+@Entity({ name: 'BR_NOTA_LAUNCH', schema: 'ETLMYETV' })
 export class BrNotaLaunch {
   // Clé primaire
   @PrimaryColumn({ type: 'integer' })

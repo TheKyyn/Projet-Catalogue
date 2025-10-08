@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 // Table contenant les diffusions (broadcasts) des programmes à la TV
 // Une diffusion = un programme diffusé sur une chaîne à une heure précise
-@Entity('SIMPLY_BROADCAST')
+@Entity({ name: 'SIMPLY_BROADCAST', schema: 'ETLMYETV' })
 export class SimplyBroadcast {
   // Clé primaire
   @PrimaryColumn({ type: 'integer' })

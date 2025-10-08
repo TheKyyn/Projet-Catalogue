@@ -66,7 +66,7 @@ export class BrNotaLaunch {
   @Column({ type: 'integer', nullable: true })
   MATCHING_LEVEL: number;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   LAUNCH_DATE: Date;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
@@ -83,7 +83,7 @@ export class BrNotaLaunch {
   CONFIDENCE: number;
 
   // Détails du matching (JSON ou texte)
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'clob', nullable: true })
   MATCHING_DETAILS: string;
 
   // Casting et production

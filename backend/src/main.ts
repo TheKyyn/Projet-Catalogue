@@ -11,9 +11,9 @@ async function bootstrap() {
   // Nécessaire pour supporter le chiffrement réseau Oracle (ORA-12660)
   try {
     oracledb.initOracleClient();
-    console.log(':white_check_mark: Oracle Client initialisé en mode thick');
+    console.log('✅ Oracle Client initialisé en mode thick');
   } catch (err) {
-    console.error(':x: Erreur lors de l\'initialisation d\'Oracle Client:');
+    console.error('❌ Erreur lors de l\'initialisation d\'Oracle Client:');
     console.error('   Assurez-vous d\'avoir Oracle Instant Client installé');
     console.error('   Téléchargement: https://www.oracle.com/database/technologies/instant-client/downloads.html');
     console.error(err);

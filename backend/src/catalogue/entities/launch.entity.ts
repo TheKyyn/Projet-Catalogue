@@ -19,7 +19,7 @@ export class Launch {
   ID_CHANNEL: number;
 
   // Date de lancement
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   LAUNCH_DATE: Date;
 
   // Durée du premier épisode (en minutes)
@@ -27,11 +27,11 @@ export class Launch {
   FIRST_BROADCAST_DURATION: number;
 
   // Heure de début de la première diffusion
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   FIRST_BROADCAST_START_TIME: Date;
 
   // Environnement / Contexte (type TEXT/CLOB)
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'clob', nullable: true })
   ENVIRONMENT: string;
 
   // Présentateur/cast
@@ -52,11 +52,11 @@ export class Launch {
   ID_PROGRAMME: number;
 
   // Date de création
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   CREATE_DATE: Date;
 
   // Date de dernière modification
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   UPDATE_DATE: Date;
 
   // Statut de publication

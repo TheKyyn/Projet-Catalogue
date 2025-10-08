@@ -6,6 +6,7 @@ import { SimplyBroadcast } from './entities/simply-broadcast.entity';
 import { SimplyProgramme } from './entities/simply-programme.entity';
 import { Broadcast } from './entities/broadcast.entity';
 import { Region } from './entities/region.entity';
+import { LocalDescriptionsNota } from './entities/local-descriptions-nota.entity';
 
 @Injectable()
 export class BroadcastService {
@@ -25,6 +26,9 @@ export class BroadcastService {
 
     @InjectRepository(Region, 'myetv')
     private regionRepo: Repository<Region>,
+
+    @InjectRepository(LocalDescriptionsNota, 'myetv')
+    private localDescriptionsNotaRepo: Repository<LocalDescriptionsNota>,
   ) {}
 
   /**
@@ -70,60 +74,109 @@ export class BroadcastService {
   }
 
   /**
-   * Récupère les broadcasts MyETV pour les launches d'un programme,
-   * groupés par région/pays
-   * @param launchIds - Liste des IDs de launches
-   * @returns Broadcasts groupés par région
+   * Récupère la liste des pays disponibles pour les launches d'un programme
+   * (sans charger tous les broadcasts pour optimiser)
+   * @param launchIds - Liste des IDs de launches Nota
+   * @returns Liste des noms de pays disponibles
    */
-  async getBroadcastsByLaunches(launchIds: number[]) {
+  async getAvailableCountries(launchIds: number[]): Promise<string[]> {
     if (launchIds.length === 0) {
-      return { broadcastsByRegion: {}, simply: null };
+      return [];
     }
 
-    // Hypothèse: ID_LOCAL_DESCRIPTION dans BROADCASTS correspond aux Launch IDs
-    // On cherche les broadcasts dont ID_LOCAL_DESCRIPTION est dans la liste des launches
-    const broadcasts = await this.broadcastRepo
-      .createQueryBuilder('b')
-      .where('b.ID_LOCAL_DESCRIPTION IN (:...ids)', { ids: launchIds })
+    // 1. Chercher dans LOCAL_DESCRIPTIONS_NOTA pour trouver les broadcast IDs
+    const localDescriptions = await this.localDescriptionsNotaRepo
+      .createQueryBuilder('ldn')
+      .where('ldn.NOTA_ID IN (:...ids)', { ids: launchIds })
       .getMany();
 
-    // Récupérer toutes les régions concernées
-    const regionIds = [...new Set(broadcasts.map((b) => b.ID_REGION))].filter(
-      (id) => id !== null,
-    );
+    if (localDescriptions.length === 0) {
+      return [];
+    }
 
-    const regions = await this.regionRepo.findByIds(regionIds);
+    // 2. Extraire les broadcast IDs
+    const broadcastIds = localDescriptions
+      .map((ld) => ld.FIRST_APPEARANCE_BROADCAST_ID)
+      .filter((id) => id !== null);
 
-    // Créer un map région ID -> région
-    const regionMap: { [key: number]: Region } = {};
-    regions.forEach((r) => {
-      regionMap[r.ID_REGION] = r;
+    if (broadcastIds.length === 0) {
+      return [];
+    }
+
+    // 3. Récupérer les broadcasts pour obtenir les ID_REGION
+    const broadcasts = await this.broadcastRepo
+      .createQueryBuilder('b')
+      .select('DISTINCT b.ID_REGION', 'ID_REGION')
+      .where('b.ID_BROADCAST IN (:...ids)', { ids: broadcastIds })
+      .andWhere('b.ID_REGION IS NOT NULL')
+      .getRawMany();
+
+    const regionIds = broadcasts.map((b: any) => b.ID_REGION as number);
+
+    if (regionIds.length === 0) {
+      return [];
+    }
+
+    // 4. Récupérer les noms des régions/pays
+    const regions = await this.regionRepo
+      .createQueryBuilder('r')
+      .where('r.ID_REGION IN (:...ids)', { ids: regionIds })
+      .getMany();
+
+    // Retourner uniquement les noms des pays
+    return regions.map((r) => r.NAME).filter((name) => name !== null);
+  }
+
+  /**
+   * Récupère les broadcasts détaillés pour un pays spécifique
+   * @param launchIds - Liste des IDs de launches Nota
+   * @param countryName - Nom du pays (ex: "France")
+   * @returns Broadcasts détaillés pour le pays
+   */
+  async getBroadcastsByCountry(
+    launchIds: number[],
+    countryName: string,
+  ): Promise<Broadcast[]> {
+    if (launchIds.length === 0) {
+      return [];
+    }
+
+    // 1. Chercher dans LOCAL_DESCRIPTIONS_NOTA
+    const localDescriptions = await this.localDescriptionsNotaRepo
+      .createQueryBuilder('ldn')
+      .where('ldn.NOTA_ID IN (:...ids)', { ids: launchIds })
+      .getMany();
+
+    if (localDescriptions.length === 0) {
+      return [];
+    }
+
+    // 2. Extraire les broadcast IDs
+    const broadcastIds = localDescriptions
+      .map((ld) => ld.FIRST_APPEARANCE_BROADCAST_ID)
+      .filter((id) => id !== null);
+
+    if (broadcastIds.length === 0) {
+      return [];
+    }
+
+    // 3. Trouver l'ID_REGION correspondant au pays
+    const region = await this.regionRepo.findOne({
+      where: { NAME: countryName },
     });
 
-    // Grouper les broadcasts par région
-    const broadcastsByRegion: {
-      [regionName: string]: { region: Region; broadcasts: Broadcast[] };
-    } = {};
+    if (!region) {
+      return [];
+    }
 
-    broadcasts.forEach((broadcast) => {
-      if (broadcast.ID_REGION) {
-        const region = regionMap[broadcast.ID_REGION];
-        const regionName = region
-          ? region.NAME
-          : `Region ${broadcast.ID_REGION}`;
+    // 4. Récupérer les broadcasts pour ce pays
+    const broadcasts = await this.broadcastRepo
+      .createQueryBuilder('b')
+      .where('b.ID_BROADCAST IN (:...ids)', { ids: broadcastIds })
+      .andWhere('b.ID_REGION = :regionId', { regionId: region.ID_REGION })
+      .getMany();
 
-        if (!broadcastsByRegion[regionName]) {
-          broadcastsByRegion[regionName] = {
-            region: region,
-            broadcasts: [],
-          };
-        }
-
-        broadcastsByRegion[regionName].broadcasts.push(broadcast);
-      }
-    });
-
-    return { broadcastsByRegion };
+    return broadcasts;
   }
 
   /**

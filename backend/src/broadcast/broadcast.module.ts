@@ -7,12 +7,20 @@ import { SimplyBroadcast } from './entities/simply-broadcast.entity';
 import { SimplyProgramme } from './entities/simply-programme.entity';
 import { Broadcast } from './entities/broadcast.entity';
 import { Region } from './entities/region.entity';
+import { LocalDescriptionsNota } from './entities/local-descriptions-nota.entity';
 
 @Module({
   imports: [
     // Enregistre les repositories pour les entities MyETV
     TypeOrmModule.forFeature(
-      [BrNotaLaunch, SimplyBroadcast, SimplyProgramme, Broadcast, Region],
+      [
+        BrNotaLaunch,
+        SimplyBroadcast,
+        SimplyProgramme,
+        Broadcast,
+        Region,
+        LocalDescriptionsNota,
+      ],
       'myetv', // ← Connexion MyETV
     ),
   ],

@@ -13,6 +13,7 @@ import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
 import { BrNotaLaunch } from './broadcast/entities/br-nota-launch.entity';
 import { Broadcast } from './broadcast/entities/broadcast.entity';
 import { Region } from './broadcast/entities/region.entity';
+import { LocalDescriptionsNota } from './broadcast/entities/local-descriptions-nota.entity';
 
 @Module({
   imports: [
@@ -30,7 +31,14 @@ import { Region } from './broadcast/entities/region.entity';
       serviceName: process.env.MYETV_SERVICE,
       username: process.env.MYETV_USER,
       password: process.env.MYETV_PASSWORD,
-      entities: [SimplyProgramme, SimplyBroadcast, BrNotaLaunch, Broadcast, Region],
+      entities: [
+        SimplyProgramme,
+        SimplyBroadcast,
+        BrNotaLaunch,
+        Broadcast,
+        Region,
+        LocalDescriptionsNota,
+      ],
       synchronize: false, // Important: ne pas modifier le schéma en preprod
       logging: true, // Pour voir les requêtes SQL dans la console
     }),

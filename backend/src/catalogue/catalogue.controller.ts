@@ -1,9 +1,13 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Param } from '@nestjs/common';
 import { CatalogueService } from './catalogue.service';
+import { BroadcastService } from '../broadcast/broadcast.service';
 
 @Controller('catalogue') // définie le préfix de route, toutes les routes commenceront par /catalogue
 export class CatalogueController {
-  constructor(private readonly catalogueService: CatalogueService) {}
+  constructor(
+    private readonly catalogueService: CatalogueService,
+    private readonly broadcastService: BroadcastService,
+  ) {}
 
   @Get('search') // donc, /catalogue/search
   // récupère la valeur du paramètre, ici 'title'
@@ -30,5 +34,50 @@ export class CatalogueController {
   async seed() {
     const result = await this.catalogueService.seedTestData();
     return result;
+  }
+
+  /**
+   * Endpoint pour récupérer tous les détails d'un programme
+   * Route : GET /catalogue/programme/:id
+   * @param id - L'ID du programme Nota
+   * @returns Toutes les infos : programme, launches, broadcasts par région, données Simply
+   */
+  @Get('programme/:id')
+  async getProgrammeDetails(@Param('id') id: string) {
+    // Convertir l'ID en nombre
+    const programmeId = parseInt(id, 10);
+
+    if (isNaN(programmeId)) {
+      return {
+        error: "L'ID du programme doit être un nombre",
+        exemple: '/catalogue/programme/1',
+      };
+    }
+
+    // 1. Récupérer les infos de base du programme (Nota)
+    const programmeData =
+      await this.catalogueService.getProgrammeDetails(programmeId);
+
+    if ('error' in programmeData) {
+      return programmeData; // Programme non trouvé
+    }
+
+    // 2. Récupérer les broadcasts MyETV groupés par région
+    const launchIds = programmeData.launches.map((l) => l.ID);
+    const broadcastsData =
+      await this.broadcastService.getBroadcastsByLaunches(launchIds);
+
+    // 3. Récupérer les données Simply via les external IDs
+    const simplyData = await this.broadcastService.getSimplyDataByExternalIds(
+      programmeData.externalIds,
+    );
+
+    // 4. Retourner tout
+    return {
+      programme: programmeData.programme,
+      launches: programmeData.launches,
+      broadcastsByRegion: broadcastsData.broadcastsByRegion,
+      simply: simplyData,
+    };
   }
 }

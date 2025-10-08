@@ -23,12 +23,18 @@ export class CatalogueService {
   // Cette fonction sera appelée depuis le controller
   async searchByTitle(title: string) {
     // 1. Chercher les programmes dont le titre contient la recherche
-    const programmes = await this.programmeRepo.find({
-      where: {
-        ORIGINAL_TITLE: Like(`%${title}%`), // LIKE '%titre%' en SQL
-      },
-      take: 20, // Limite à 20 résultats
-    });
+    // Utilisation de UPPER() pour une recherche insensible à la casse
+    const programmes = await this.programmeRepo
+      .createQueryBuilder('p')
+      .where('UPPER(p.ORIGINAL_TITLE) LIKE UPPER(:title)', {
+        title: `%${title}%`,
+      })
+      .orWhere('UPPER(p.NAME) LIKE UPPER(:title)', { title: `%${title}%` })
+      .orWhere('UPPER(p.ORIGINAL_TITLE_NOACCENT) LIKE UPPER(:title)', {
+        title: `%${title}%`,
+      })
+      .take(20) // Limite à 20 résultats
+      .getMany();
 
     // 2. Pour chaque programme, récupérer ses launches
     const results: { programme: Programme; launches: Launch[] }[] = []; // Typage du tableau results

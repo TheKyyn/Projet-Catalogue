@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
  * Table REGIONS dans MyETV
  * Contient les informations sur les régions/pays de diffusion
  */
-@Entity({ name: 'REGIONS', schema: 'ETLMYETV' })
+@Entity({ name: 'REGIONS', schema: 'NSIETV' })
 export class Region {
   // Clé primaire
   @PrimaryColumn({ type: 'number', precision: 4, scale: 0 })

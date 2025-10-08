@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
  * Table LOCAL_DESCRIPTIONS_NOTA dans MyETV (schéma NSIETV)
  * Fait le lien entre les Launches Nota et les Broadcasts MyETV
  */
-@Entity('LOCAL_DESCRIPTIONS_NOTA')
+@Entity({ name: 'LOCAL_DESCRIPTIONS_NOTA', schema: 'NSIETV' })
 export class LocalDescriptionsNota {
   // Clé primaire
   @PrimaryColumn({ type: 'number', precision: 9, scale: 0 })

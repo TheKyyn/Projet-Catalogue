@@ -10,6 +10,7 @@ import { Launch } from './catalogue/entities/launch.entity';
 import { ExternalId } from './catalogue/entities/external-id.entity';
 import { SimplyProgramme } from './broadcast/entities/simply-programme.entity';
 import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
+import { BrNotaLaunch } from './broadcast/entities/br-nota-launch.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
       name: 'myetv',
       type: 'sqlite',
       database: 'database/myetv.sqlite', // Fichier local
-      entities: [SimplyProgramme, SimplyBroadcast],
+      entities: [SimplyProgramme, SimplyBroadcast, BrNotaLaunch],
       synchronize: true, // En dev: crée automatiquement les tables
       logging: true, // Pour voir les requêtes SQL dans la console
     }),
@@ -33,7 +34,7 @@ import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
       name: 'nota',
       type: 'sqlite',
       database: 'database/nota.sqlite', // Fichier local
-      entities: [Programme, Launch, ExternalId, SimplyProgramme],
+      entities: [Programme, Launch, ExternalId],
       synchronize: true,
       logging: true,
     }),

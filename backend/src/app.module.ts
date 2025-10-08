@@ -11,6 +11,8 @@ import { ExternalId } from './catalogue/entities/external-id.entity';
 import { SimplyProgramme } from './broadcast/entities/simply-programme.entity';
 import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
 import { BrNotaLaunch } from './broadcast/entities/br-nota-launch.entity';
+import { Broadcast } from './broadcast/entities/broadcast.entity';
+import { Region } from './broadcast/entities/region.entity';
 
 @Module({
   imports: [
@@ -19,23 +21,31 @@ import { BrNotaLaunch } from './broadcast/entities/br-nota-launch.entity';
       isGlobal: true,
     }),
 
-    // Base de données MyETV (SQLite local en dev)
+    // Base de données MyETV (Oracle preprod)
     TypeOrmModule.forRoot({
       name: 'myetv',
-      type: 'sqlite',
-      database: 'database/myetv.sqlite', // Fichier local
-      entities: [SimplyProgramme, SimplyBroadcast, BrNotaLaunch],
-      synchronize: true, // En dev: crée automatiquement les tables
+      type: 'oracle',
+      host: process.env.MYETV_HOST,
+      port: parseInt(process.env.MYETV_PORT || '1521'),
+      serviceName: process.env.MYETV_SERVICE,
+      username: process.env.MYETV_USER,
+      password: process.env.MYETV_PASSWORD,
+      entities: [SimplyProgramme, SimplyBroadcast, BrNotaLaunch, Broadcast, Region],
+      synchronize: false, // Important: ne pas modifier le schéma en preprod
       logging: true, // Pour voir les requêtes SQL dans la console
     }),
 
-    // Base de données Nota (SQLite local en dev)
+    // Base de données Nota (Oracle preprod)
     TypeOrmModule.forRoot({
       name: 'nota',
-      type: 'sqlite',
-      database: 'database/nota.sqlite', // Fichier local
+      type: 'oracle',
+      host: process.env.NOTA_HOST,
+      port: parseInt(process.env.NOTA_PORT || '1521'),
+      serviceName: process.env.NOTA_SERVICE,
+      username: process.env.NOTA_USER,
+      password: process.env.NOTA_PASSWORD,
       entities: [Programme, Launch, ExternalId],
-      synchronize: true,
+      synchronize: false, // Important: ne pas modifier le schéma en preprod
       logging: true,
     }),
 

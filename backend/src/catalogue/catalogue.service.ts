@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { Programme } from './entities/programme.entity';
 import { Launch } from './entities/launch.entity';
+import { ExternalId } from './entities/external-id.entity';
 
 @Injectable()
 export class CatalogueService {
@@ -13,6 +14,9 @@ export class CatalogueService {
 
     @InjectRepository(Launch, 'nota')
     private launchRepo: Repository<Launch>,
+
+    @InjectRepository(ExternalId, 'nota')
+    private externalIdRepo: Repository<ExternalId>,
   ) {}
 
   // *** MÉTHODE : Recherche par titre ***
@@ -129,6 +133,41 @@ export class CatalogueService {
       message: 'Données de test insérées avec succès !',
       programmes: 3,
       launches: 3,
+    };
+  }
+
+  /**
+   * Récupère tous les détails d'un programme par son ID
+   * @param id - L'ID du programme dans Nota
+   * @returns Le programme avec ses launches et external IDs
+   */
+  async getProgrammeDetails(id: number) {
+    // 1. Récupérer le programme
+    const programme = await this.programmeRepo.findOne({
+      where: { ID: id },
+    });
+
+    if (!programme) {
+      return {
+        error: 'Programme non trouvé',
+        id: id,
+      };
+    }
+
+    // 2. Récupérer les launches de ce programme
+    const launches = await this.launchRepo.find({
+      where: { ID_PROGRAMME: id },
+    });
+
+    // 3. Récupérer les external IDs (pour Simply, IMDB, etc.)
+    const externalIds = await this.externalIdRepo.find({
+      where: { ID_PROGRAMME: id },
+    });
+
+    return {
+      programme: programme,
+      launches: launches,
+      externalIds: externalIds,
     };
   }
 }

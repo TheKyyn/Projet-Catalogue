@@ -26,11 +26,11 @@ export class SimplyBroadcast {
   BROADCAST_TITLE: string;
 
   // Heure annoncée du début de diffusion
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   START_TIME: Date;
 
   // Heure de fin de diffusion
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   END_TIME: Date;
 
   // Durée de la diffusion (en minutes, calculée par Simply)
@@ -42,9 +42,9 @@ export class SimplyBroadcast {
   DURATION: number;
 
   // Heure réelle du début de la diffusion
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   ACCURATE_START_TIME: Date;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   ACCURATE_END_TIME: Date;
 }

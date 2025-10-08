@@ -38,9 +38,9 @@ export class Programme {
   @Column({ type: 'varchar', length: 4000, nullable: true })
   DIRECTOR: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'clob', nullable: true })
   SUMMARY: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'clob', nullable: true })
   DESCRIPTION: string;
 }

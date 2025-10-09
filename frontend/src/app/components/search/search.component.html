@@ -1,0 +1,95 @@
+<div class="search-container">
+  <div class="search-header">
+    <h1>🎬 Projet Catalogue</h1>
+    <p class="subtitle">Recherchez des programmes TV et leurs diffusions</p>
+  </div>
+
+  <!-- Barre de recherche -->
+  <form class="search-form" (ngSubmit)="onSubmit($event)">
+    <div class="search-input-group">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        name="searchTerm"
+        placeholder="Rechercher un programme... (ex: Breaking Bad, Game of Thrones)"
+        class="search-input"
+        [class.error]="error"
+      />
+      <button
+        type="submit"
+        class="search-button"
+        [disabled]="loading"
+      >
+        {{ loading ? '🔄 Recherche...' : '🔍 Rechercher' }}
+      </button>
+    </div>
+
+    <!-- Message d'erreur -->
+    @if (error) {
+      <div class="error-message">
+        ⚠️ {{ error }}
+      </div>
+    }
+  </form>
+
+  <!-- Loading spinner -->
+  @if (loading) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Recherche en cours...</p>
+    </div>
+  }
+
+  <!-- Résultats -->
+  @if (searched && !loading) {
+    <div class="results-section">
+      <h2 class="results-title">
+        {{ results.length > 0 ? results.length + ' programme(s) trouvé(s)' : 'Aucun résultat' }}
+      </h2>
+
+      @if (results.length === 0) {
+        <div class="no-results">
+          <p>😕 Aucun programme ne correspond à votre recherche.</p>
+          <p class="hint">Essayez avec un autre titre ou vérifiez l'orthographe.</p>
+        </div>
+      }
+
+      <!-- Liste des programmes -->
+      <div class="results-grid">
+        @for (item of results; track item.programme.ID) {
+          <div
+            class="programme-card"
+            (click)="viewProgramme(item.programme.ID)"
+          >
+            <div class="card-header">
+              <h3 class="programme-title">{{ item.programme.ORIGINAL_TITLE || item.programme.NAME }}</h3>
+              @if (item.programme.YEAR) {
+                <span class="programme-year">{{ item.programme.YEAR }}</span>
+              }
+            </div>
+
+            <div class="card-body">
+              @if (item.programme.NAME && item.programme.NAME !== item.programme.ORIGINAL_TITLE) {
+                <p class="programme-name">{{ item.programme.NAME }}</p>
+              }
+
+              @if (item.programme.SUMMARY) {
+                <p class="programme-summary">
+                  {{ item.programme.SUMMARY.substring(0, 150) }}{{ item.programme.SUMMARY.length > 150 ? '...' : '' }}
+                </p>
+              }
+
+              <div class="card-footer">
+                <span class="launches-count">
+                  📺 {{ item.launches.length }} launch(es)
+                </span>
+                <span class="view-link">Voir les détails →</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+

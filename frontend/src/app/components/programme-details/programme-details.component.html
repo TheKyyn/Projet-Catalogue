@@ -275,7 +275,7 @@
                   <div class="simply-broadcast-item">
                     <strong>{{ broadcast.BROADCAST_TITLE }}</strong>
                     <span class="broadcast-time">
-                      {{ formatDate(broadcast.START_TIME) }} - {{ formatTime(broadcast.START_TIME ? new Date(broadcast.START_TIME).getHours() * 10000 + new Date(broadcast.START_TIME).getMinutes() * 100 : 0) }}
+                      {{ formatDate(broadcast.START_TIME) }} - {{ formatTime(convertDateToTime(broadcast.START_TIME)) }}
                     </span>
                     @if (broadcast.DURATION) {
                       <span class="broadcast-duration">{{ broadcast.DURATION }} min</span>

@@ -126,6 +126,15 @@ export class ProgrammeDetailsComponent implements OnInit {
   }
 
   /**
+   * Convertit une date ISO en nombre de type time (ex: "2024-01-01T20:30:00" -> 203000)
+   */
+  convertDateToTime(dateString: string | undefined): number {
+    if (!dateString) return 0;
+    const date = new Date(dateString);
+    return date.getHours() * 10000 + date.getMinutes() * 100;
+  }
+
+  /**
    * Retour à la recherche
    */
   goBack(): void {

@@ -60,9 +60,6 @@ export class SimplyProgramme {
   @Column({ type: 'varchar', length: 500, nullable: true })
   CREDITS: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  ID_SIMPLY_CREDITS: string;
-
   // Description du programme
   @Column({ type: 'varchar', length: 1000, nullable: true })
   DESCRIPTION: string;

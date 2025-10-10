@@ -13,13 +13,13 @@ import { Programme, Launch } from '../../models/programme.model';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent {
-  // Terme de recherche
+  // Search term
   searchTerm: string = '';
 
-  // Résultats de la recherche
+  // Search results
   results: Array<{ programme: Programme; launches: Launch[] }> = [];
 
-  // États de l'application
+  // Application state
   loading: boolean = false;
   searched: boolean = false;
   error: string | null = null;
@@ -30,12 +30,12 @@ export class SearchComponent {
   ) {}
 
   /**
-   * Effectue la recherche de programmes
+   * Performs program search
    */
   search(): void {
     // Validation
     if (!this.searchTerm || this.searchTerm.trim().length < 2) {
-      this.error = 'Veuillez entrer au moins 2 caractères';
+      this.error = 'Please enter at least 2 characters';
       return;
     }
 
@@ -43,29 +43,29 @@ export class SearchComponent {
     this.searched = true;
     this.error = null;
 
-    // Appel API
+    // API call
     this.catalogueService.searchProgrammes(this.searchTerm).subscribe({
       next: (response) => {
         this.results = response.results;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Erreur lors de la recherche:', err);
-        this.error = 'Une erreur est survenue lors de la recherche';
+        console.error('Search error:', err);
+        this.error = 'An error occurred during the search';
         this.loading = false;
       },
     });
   }
 
   /**
-   * Navigue vers la page de détails d'un programme
+   * Navigates to program details page
    */
   viewProgramme(programmeId: number): void {
     this.router.navigate(['/programme', programmeId]);
   }
 
   /**
-   * Gère la soumission du formulaire (Enter)
+   * Handles form submission (Enter key)
    */
   onSubmit(event: Event): void {
     event.preventDefault();

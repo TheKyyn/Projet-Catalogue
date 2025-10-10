@@ -1,23 +1,23 @@
 <div class="details-container">
-  <!-- Bouton retour -->
+  <!-- Back button -->
   <button class="back-button" (click)="goBack()">
-    ← Retour à la recherche
+    ← Back to search
   </button>
 
   <!-- Loading -->
   @if (loading) {
     <div class="loading">
       <div class="spinner"></div>
-      <p>Chargement des détails...</p>
+      <p>Loading details...</p>
     </div>
   }
 
-  <!-- Erreur -->
+  <!-- Error -->
   @if (error && !loading) {
     <div class="error-box">
-      <h2>❌ Erreur</h2>
+      <h2>❌ Error</h2>
       <p>{{ error }}</p>
-      <button class="btn-primary" (click)="goBack()">Retour</button>
+      <button class="btn-primary" (click)="goBack()">Back</button>
     </div>
   }
 
@@ -40,28 +40,28 @@
         }
       </div>
 
-      <!-- Informations du programme -->
+      <!-- Program information -->
       <div class="programme-info-card">
-        <h2 class="section-title">📋 Informations du programme</h2>
+        <h2 class="section-title">📋 Program Information</h2>
 
         <div class="info-grid">
           @if (programme.EXECUTIVE_PRODUCER) {
             <div class="info-item">
-              <span class="info-label">Producteur exécutif</span>
+              <span class="info-label">Executive Producer</span>
               <span class="info-value">{{ programme.EXECUTIVE_PRODUCER }}</span>
             </div>
           }
 
           @if (programme.HOST_CAST) {
             <div class="info-item">
-              <span class="info-label">Casting / Présentateur</span>
+              <span class="info-label">Cast / Host</span>
               <span class="info-value">{{ programme.HOST_CAST }}</span>
             </div>
           }
 
           @if (programme.DIRECTOR) {
             <div class="info-item">
-              <span class="info-label">Réalisateur</span>
+              <span class="info-label">Director</span>
               <span class="info-value">{{ programme.DIRECTOR }}</span>
             </div>
           }
@@ -76,7 +76,7 @@
 
         @if (programme.SUMMARY) {
           <div class="summary-section">
-            <h3 class="subsection-title">Résumé</h3>
+            <h3 class="subsection-title">Summary</h3>
             <p class="summary-text">{{ programme.SUMMARY }}</p>
           </div>
         }
@@ -94,7 +94,7 @@
         <h2 class="section-title">📺 Launches ({{ launches.length }})</h2>
 
         @if (launches.length === 0) {
-          <p class="no-data">Aucun launch disponible pour ce programme.</p>
+          <p class="no-data">No launches available for this program.</p>
         } @else {
           <div class="launches-grid">
             @for (launch of launches; track launch.ID) {
@@ -110,7 +110,7 @@
 
                   @if (launch.NUMBER_OF_EPISODES) {
                     <span class="detail-item">
-                      🎬 {{ launch.NUMBER_OF_EPISODES }} épisode(s)
+                      🎬 {{ launch.NUMBER_OF_EPISODES }} episode(s)
                     </span>
                   }
 
@@ -126,14 +126,14 @@
         }
       </div>
 
-      <!-- Pays disponibles -->
+      <!-- Available countries -->
       <div class="countries-card">
-        <h2 class="section-title">🌍 Diffusions par pays ({{ availableCountries.length }})</h2>
+        <h2 class="section-title">🌍 Broadcasts by Country ({{ availableCountries.length }})</h2>
 
         @if (availableCountries.length === 0) {
-          <p class="no-data">Aucune diffusion trouvée dans les bases MyETV.</p>
+          <p class="no-data">No broadcasts found in MyETV databases.</p>
         } @else {
-          <p class="instruction">Cliquez sur un pays pour voir les détails des diffusions</p>
+          <p class="instruction">Click on a country to view broadcast details</p>
 
           <div class="countries-grid">
             @for (country of availableCountries; track country) {
@@ -152,20 +152,20 @@
             }
           </div>
 
-          <!-- Broadcasts du pays sélectionné -->
+          <!-- Selected country broadcasts -->
           @if (selectedCountry) {
             <div class="broadcasts-section">
-              <h3 class="subsection-title">📡 Diffusions en {{ selectedCountry }}</h3>
+              <h3 class="subsection-title">📡 Broadcasts in {{ selectedCountry }}</h3>
 
               @if (loadingBroadcasts) {
                 <div class="loading-small">
                   <div class="spinner-small"></div>
-                  <span>Chargement...</span>
+                  <span>Loading...</span>
                 </div>
               }
 
               @if (!loadingBroadcasts && countryBroadcasts.length === 0) {
-                <p class="no-data">Aucune diffusion trouvée pour ce pays.</p>
+                <p class="no-data">No broadcasts found for this country.</p>
               }
 
               @if (!loadingBroadcasts && countryBroadcasts.length > 0) {
@@ -174,8 +174,8 @@
                     <thead>
                       <tr>
                         <th>Date</th>
-                        <th>Heure début</th>
-                        <th>Durée</th>
+                        <th>Start Time</th>
+                        <th>Duration</th>
                         <th>Audience (RAT)</th>
                         <th>TVR</th>
                         <th>Reach</th>
@@ -203,10 +203,10 @@
         }
       </div>
 
-      <!-- Données Simply -->
+      <!-- Simply Data -->
       @if (simply && (simply.programmes.length > 0 || simply.broadcasts.length > 0)) {
         <div class="simply-card">
-          <h2 class="section-title">🎬 Données Simply</h2>
+          <h2 class="section-title">🎬 Simply Data</h2>
 
           @if (simply.programmes.length > 0) {
             <div class="simply-programmes">
@@ -245,7 +245,7 @@
 
                     @if (prog.PRODUCTION_COUNTRIES) {
                       <div class="meta-item">
-                        <strong>Pays:</strong> {{ prog.PRODUCTION_COUNTRIES }}
+                        <strong>Countries:</strong> {{ prog.PRODUCTION_COUNTRIES }}
                       </div>
                     }
 
@@ -268,7 +268,7 @@
 
           @if (simply.broadcasts.length > 0) {
             <div class="simply-broadcasts">
-              <h3 class="subsection-title">Diffusions Simply ({{ simply.broadcasts.length }})</h3>
+              <h3 class="subsection-title">Simply Broadcasts ({{ simply.broadcasts.length }})</h3>
 
               <div class="simply-broadcasts-list">
                 @for (broadcast of simply.broadcasts; track broadcast.ID) {

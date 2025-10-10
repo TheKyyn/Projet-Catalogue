@@ -1,17 +1,17 @@
 <div class="search-container">
   <div class="search-header">
-    <h1>🎬 Projet Catalogue</h1>
-    <p class="subtitle">Recherchez des programmes TV et leurs diffusions</p>
+    <h1>🎬 Catalogue Project</h1>
+    <p class="subtitle">Search for TV programs and broadcasts</p>
   </div>
 
-  <!-- Barre de recherche -->
+  <!-- Search bar -->
   <form class="search-form" (ngSubmit)="onSubmit($event)">
     <div class="search-input-group">
       <input
         type="text"
         [(ngModel)]="searchTerm"
         name="searchTerm"
-        placeholder="Rechercher un programme... (ex: Breaking Bad, Game of Thrones)"
+        placeholder="Search for a program... (e.g. Breaking Bad, Game of Thrones)"
         class="search-input"
         [class.error]="error"
       />
@@ -20,11 +20,11 @@
         class="search-button"
         [disabled]="loading"
       >
-        {{ loading ? '🔄 Recherche...' : '🔍 Rechercher' }}
+        {{ loading ? '🔄 Searching...' : '🔍 Search' }}
       </button>
     </div>
 
-    <!-- Message d'erreur -->
+    <!-- Error message -->
     @if (error) {
       <div class="error-message">
         ⚠️ {{ error }}
@@ -36,21 +36,21 @@
   @if (loading) {
     <div class="loading">
       <div class="spinner"></div>
-      <p>Recherche en cours...</p>
+      <p>Searching...</p>
     </div>
   }
 
-  <!-- Résultats -->
+  <!-- Results -->
   @if (searched && !loading) {
     <div class="results-section">
       <h2 class="results-title">
-        {{ results.length > 0 ? results.length + ' programme(s) trouvé(s)' : 'Aucun résultat' }}
+        {{ results.length > 0 ? results.length + ' program(s) found' : 'No results' }}
       </h2>
 
       @if (results.length === 0) {
         <div class="no-results">
-          <p>😕 Aucun programme ne correspond à votre recherche.</p>
-          <p class="hint">Essayez avec un autre titre ou vérifiez l'orthographe.</p>
+          <p>😕 No program matches your search.</p>
+          <p class="hint">Try another title or check the spelling.</p>
         </div>
       }
 
@@ -83,7 +83,7 @@
                 <span class="launches-count">
                   📺 {{ item.launches.length }} launch(es)
                 </span>
-                <span class="view-link">Voir les détails →</span>
+                <span class="view-link">View details →</span>
               </div>
             </div>
           </div>

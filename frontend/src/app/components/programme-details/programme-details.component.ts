@@ -109,7 +109,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   formatDate(dateString: string | undefined): string {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('fr-FR', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',

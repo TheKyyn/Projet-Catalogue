@@ -32,6 +32,9 @@ export class ProgrammeDetailsComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
 
+  // Simply data collapse state
+  isSimplyDataExpanded: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -139,6 +142,13 @@ export class ProgrammeDetailsComponent implements OnInit {
    */
   goBack(): void {
     this.router.navigate(['/']);
+  }
+
+  /**
+   * Toggles simply data expand state
+   */
+  toggleSimplyDataExpanded(): void {
+    this.isSimplyDataExpanded = !this.isSimplyDataExpanded;
   }
 }
 

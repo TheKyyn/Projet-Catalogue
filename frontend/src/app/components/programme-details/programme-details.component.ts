@@ -32,8 +32,8 @@ export class ProgrammeDetailsComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
 
-  // Simply data collapse state
-  isSimplyDataExpanded: boolean = false;
+  // Simply broadcasts collapse state
+  isSimplyBroadcastsExpanded: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -145,10 +145,10 @@ export class ProgrammeDetailsComponent implements OnInit {
   }
 
   /**
-   * Toggles simply data expand state
+   * Toggles Simply Broadcasts section visibility
    */
-  toggleSimplyDataExpanded(): void {
-    this.isSimplyDataExpanded = !this.isSimplyDataExpanded;
+  toggleSimplyBroadcasts(): void {
+    this.isSimplyBroadcastsExpanded = !this.isSimplyBroadcastsExpanded;
   }
 }
 

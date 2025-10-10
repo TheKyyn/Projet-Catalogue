@@ -195,11 +195,9 @@
     @if (simply && (simply.programmes.length > 0 || simply.broadcasts.length >
     0)) {
     <div class="simply-card">
-      <h2 class="section-title clickable" (click)="toggleSimplyDataExpanded()">
-        🎬 Simply Data {{ isSimplyDataExpanded ? "▼" : "▶" }}
-      </h2>
+      <h2 class="section-title">🎬 Simply Data</h2>
 
-      @if (isSimplyDataExpanded) { @if (simply.programmes.length > 0) {
+      @if (simply.programmes.length > 0) {
       <div class="simply-programmes">
         @for (prog of simply.programmes; track prog.ID) {
         <div class="simply-programme-item">
@@ -243,12 +241,15 @@
         </div>
         }
       </div>
-      } } @if (simply.broadcasts.length > 0) {
+      }
+
+      @if (simply.broadcasts.length > 0) {
       <div class="simply-broadcasts">
-        <h3 class="subsection-title">
-          Simply Broadcasts ({{ simply.broadcasts.length }})
+        <h3 class="subsection-title clickable" (click)="toggleSimplyBroadcasts()">
+          Simply Broadcasts ({{ simply.broadcasts.length }}) {{ isSimplyBroadcastsExpanded ? "▼" : "▶" }}
         </h3>
 
+        @if (isSimplyBroadcastsExpanded) {
         <table class="simply-broadcasts-table">
           <thead>
             <tr>
@@ -272,6 +273,7 @@
             }
           </tbody>
         </table>
+        }
       </div>
       }
     </div>

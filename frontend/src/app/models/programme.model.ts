@@ -30,6 +30,7 @@ export interface Launch {
   NUMBER_OF_EPISODES?: number;
   TYPICAL_DURATION?: number;
   ID_PROGRAMME?: number;
+  ID_PUBLICATION_STATUS?: number;
 }
 
 /**

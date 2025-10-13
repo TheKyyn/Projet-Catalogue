@@ -109,8 +109,7 @@
                 <tr>
                   <td>
                     @if (launch.ID_PUBLICATION_STATUS === 1) {
-                      <a [href]="'http://localhost:3000/broadcast/search?idLaunch=' + launch.ID" target="_blank"
-                         rel="noopener noreferrer">
+                      <a [href]="'https://www.e-nota.com/card/' + launch.ID" target="_blank" rel="noopener noreferrer">
                         {{ launch.LOCAL_TITLE || launch.TRANSLATED_TITLE }}
                       </a>
                     } @else {

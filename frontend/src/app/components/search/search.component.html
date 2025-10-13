@@ -62,16 +62,13 @@
             (click)="viewProgramme(item.programme.ID)"
           >
             <div class="card-header">
-              <h3 class="programme-title">{{ item.programme.ORIGINAL_TITLE || item.programme.NAME }}</h3>
+              <h3 class="programme-title">{{ item.programme.NAME }}</h3>
               @if (item.programme.YEAR) {
                 <span class="programme-year">{{ item.programme.YEAR }}</span>
               }
             </div>
 
             <div class="card-body">
-              @if (item.programme.NAME && item.programme.NAME !== item.programme.ORIGINAL_TITLE) {
-                <p class="programme-name">{{ item.programme.NAME }}</p>
-              }
 
               @if (item.programme.SUMMARY) {
                 <p class="programme-summary">

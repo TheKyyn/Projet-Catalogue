@@ -5,6 +5,19 @@ import { Router } from '@angular/router';
 import { CatalogueService } from '../../services/catalogue.service';
 import { Programme, Launch } from '../../models/programme.model';
 
+/**
+ * Réponse de l'API pour la recherche
+ */
+export interface SearchResponse {
+  query: string;
+  count: number;
+  results: Array<{
+    programme: Programme;
+    launches: Launch[];
+    hasSimplyData?: boolean;
+  }>;
+}
+
 @Component({
   selector: 'app-search',
   standalone: true,
@@ -17,7 +30,11 @@ export class SearchComponent {
   searchTerm: string = '';
 
   // Search results
-  results: Array<{ programme: Programme; launches: Launch[] }> = [];
+  results: Array<{
+    programme: Programme;
+    launches: Launch[];
+    simplyDataStatus?: string;
+  }> = [];
 
   // Application state
   loading: boolean = false;
@@ -30,7 +47,7 @@ export class SearchComponent {
   ) {}
 
   /**
-   * Performs program search
+   * Performs program search with limit of 20 results
    */
   search(): void {
     // Validation
@@ -46,7 +63,8 @@ export class SearchComponent {
     // API call
     this.catalogueService.searchProgrammes(this.searchTerm).subscribe({
       next: (response) => {
-        this.results = response.results;
+        // Limit to 20 results
+        this.results = response.results.slice(0, 20);
         console.log('Search results:', this.results);
         this.loading = false;
       },
@@ -71,6 +89,15 @@ export class SearchComponent {
   onSubmit(event: Event): void {
     event.preventDefault();
     this.search();
+  }
+
+  /**
+   * Truncates text to specified length with ellipsis
+   */
+  truncateText(text: string | undefined, maxLength: number): string {
+    if (!text) return '-';
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
   }
 }
 

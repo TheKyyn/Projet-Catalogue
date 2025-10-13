@@ -54,39 +54,89 @@
         </div>
       }
 
-      <!-- Liste des programmes -->
-      <div class="results-grid">
-        @for (item of results; track item.programme.ID) {
-          <div
-            class="programme-card"
-            (click)="viewProgramme(item.programme.ID)"
-          >
-            <div class="card-header">
-              <h3 class="programme-title">{{ item.programme.NAME }}</h3>
-              @if (item.programme.YEAR) {
-                <span class="programme-year">{{ item.programme.YEAR }}</span>
+      @if (results.length > 0) {
+        <!-- Data table -->
+        <div class="table-container">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Original Title</th>
+                <th>Format</th>
+                <th>Genre</th>
+                <th>Subgenre</th>
+                <th>IMDB ID</th>
+                <th>Director</th>
+                <th>Executive Producer</th>
+                <th>Host/Cast</th>
+                <th>Simply Data</th>
+                <th>Launches</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of results; track item.programme.ID) {
+                <tr class="table-row" (click)="viewProgramme(item.programme.ID)">
+                  <td class="id-column">{{ item.programme.ID }}</td>
+                  <td class="name-column">
+                    <strong>{{ item.programme.NAME || '-' }}</strong>
+                  </td>
+                  <td class="year-column">{{ item.programme.YEAR || '-' }}</td>
+                  <td class="title-column">{{ item.programme.ORIGINAL_TITLE || '-' }}</td>
+                  <td class="format-column">
+                    <span class="badge-format">{{ item.programme.FORMAT_TITLE || '-' }}</span>
+                  </td>
+                  <td class="genre-column">{{ item.programme.GENRE_TITLE || '-' }}</td>
+                  <td class="subgenre-column">{{ item.programme.SUBGENRE_TITLE || '-' }}</td>
+                  <td class="imdb-column">
+                    @if (item.programme.ID_IMDB) {
+                      <a
+                        href="https://www.imdb.com/title/{{ item.programme.ID_IMDB }}"
+                        target="_blank"
+                        (click)="$event.stopPropagation()"
+                        class="imdb-link"
+                      >
+                        {{ item.programme.ID_IMDB }}
+                      </a>
+                    } @else {
+                      <span>-</span>
+                    }
+                  </td>
+                  <td class="director-column" [title]="item.programme.DIRECTOR || ''">
+                    {{ truncateText(item.programme.DIRECTOR, 50) }}
+                  </td>
+                  <td class="producer-column" [title]="item.programme.EXECUTIVE_PRODUCER || ''">
+                    {{ truncateText(item.programme.EXECUTIVE_PRODUCER, 50) }}
+                  </td>
+                  <td class="cast-column" [title]="item.programme.HOST_CAST || ''">
+                    {{ truncateText(item.programme.HOST_CAST, 50) }}
+                  </td>
+                  <td class="simply-column">
+                    <span
+                      [class]="item.simplyDataStatus === 'Linked' ? 'badge-linked' : 'badge-not-linked'"
+                    >
+                      {{ item.simplyDataStatus || 'Not Linked' }}
+                    </span>
+                  </td>
+                  <td class="launches-column">
+                    <span class="badge-launches">{{ item.launches.length }}</span>
+                  </td>
+                  <td class="actions-column">
+                    <button
+                      class="view-btn"
+                      (click)="viewProgramme(item.programme.ID); $event.stopPropagation()"
+                    >
+                      View →
+                    </button>
+                  </td>
+                </tr>
               }
-            </div>
-
-            <div class="card-body">
-
-              @if (item.programme.SUMMARY) {
-                <p class="programme-summary">
-                  {{ item.programme.SUMMARY.substring(0, 150) }}{{ item.programme.SUMMARY.length > 150 ? '...' : '' }}
-                </p>
-              }
-
-              <div class="card-footer">
-                <span class="launches-count">
-                  📺 {{ item.launches.length }} launch(es)
-                </span>
-                <span class="view-link">View details →</span>
-              </div>
-            </div>
-          </div>
-        }
-      </div>
+            </tbody>
+          </table>
+        </div>
+      }
     </div>
   }
 </div>
-

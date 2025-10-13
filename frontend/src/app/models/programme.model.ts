@@ -15,6 +15,9 @@ export interface Programme {
   DIRECTOR?: string;
   SUMMARY?: string;
   DESCRIPTION?: string;
+  FORMAT_TITLE?: string;
+  GENRE_TITLE?: string;
+  SUBGENRE_TITLE?: string;
 }
 
 /**
@@ -90,6 +93,7 @@ export interface SearchResponse {
   results: Array<{
     programme: Programme;
     launches: Launch[];
+    simplyDataStatus?: string; // "Linked" or "Not Linked"
   }>;
 }
 

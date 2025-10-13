@@ -99,5 +99,15 @@ export class SearchComponent {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';
   }
+
+  /**
+   * Checks if format =/= original title
+   * Returns true if =/=
+   */
+  isFormatDifferentFromTitle(programme: Programme): boolean {
+    const format = programme.FORMAT_TITLE?.trim() || '';
+    const originalTitle = programme.ORIGINAL_TITLE?.trim() || '';
+    return format !== '' && originalTitle !== '' && format !== originalTitle;
+  }
 }
 

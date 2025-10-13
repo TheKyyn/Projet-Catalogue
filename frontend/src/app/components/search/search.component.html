@@ -86,7 +86,12 @@
                   <td class="year-column">{{ item.programme.YEAR || '-' }}</td>
                   <td class="title-column">{{ item.programme.ORIGINAL_TITLE || '-' }}</td>
                   <td class="format-column">
-                    <span class="badge-format">{{ item.programme.FORMAT_TITLE || '-' }}</span>
+                    <span
+                      class="badge-format"
+                      [class.badge-format-different]="isFormatDifferentFromTitle(item.programme)"
+                    >
+                      {{ item.programme.FORMAT_TITLE || '-' }}
+                    </span>
                   </td>
                   <td class="genre-column">{{ item.programme.GENRE_TITLE || '-' }}</td>
                   <td class="subgenre-column">{{ item.programme.SUBGENRE_TITLE || '-' }}</td>

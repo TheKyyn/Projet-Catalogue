@@ -15,11 +15,11 @@
 .search-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #373030;
 }
 
 .subtitle {
-  color: #666;
+  color: #7f7f7f;
   font-size: 1.1rem;
 }
 
@@ -39,24 +39,24 @@
   flex: 1;
   padding: 1rem;
   font-size: 1rem;
-  border: 2px solid #ddd;
+  border: 2px solid #d9d9d9;
   border-radius: 8px;
   transition: border-color 0.3s;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #0032FF;
 }
 
 .search-input.error {
-  border-color: #dc3545;
+  border-color: #e10037;
 }
 
 .search-button {
   padding: 1rem 2rem;
   font-size: 1rem;
-  background-color: #007bff;
+  background-color: #0032FF;
   color: white;
   border: none;
   border-radius: 8px;
@@ -66,22 +66,22 @@
 }
 
 .search-button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #0026BF;
 }
 
 .search-button:disabled {
-  background-color: #6c757d;
+  background-color: #7f7f7f;
   cursor: not-allowed;
 }
 
 /* Error Message */
 .error-message {
-  color: #dc3545;
+  color: #e10037;
   text-align: center;
   margin-top: 1rem;
   padding: 1rem;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
+  background-color: #ffe3dede;
+  border: 1px solid #ff8da9;
   border-radius: 8px;
   max-width: 700px;
   margin-left: auto;
@@ -95,8 +95,8 @@
 }
 
 .spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
+  border: 4px solid #f2f2f2;
+  border-top: 4px solid #0032FF;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -116,7 +116,7 @@
 
 .results-title {
   font-size: 1.5rem;
-  color: #333;
+  color: #373030;
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -125,7 +125,7 @@
 .no-results {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  color: #7f7f7f;
 }
 
 .no-results p {
@@ -135,7 +135,7 @@
 
 .hint {
   font-size: 1rem;
-  color: #999;
+  color: #a6a6a6;
 }
 
 /* Table Container */
@@ -154,7 +154,7 @@
 }
 
 .results-table thead {
-  background-color: #007bff;
+  background-color: #0032FF;
   color: white;
   position: sticky;
   top: 0;
@@ -174,13 +174,13 @@
 }
 
 .results-table tbody tr {
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #e3dede;
   transition: background-color 0.2s;
   cursor: pointer;
 }
 
 .results-table tbody tr:hover {
-  background-color: #f8f9fa;
+  background-color: #f2f2f2;
 }
 
 .results-table tbody tr:last-child {
@@ -190,7 +190,7 @@
 .results-table td {
   padding: 12px 8px;
   vertical-align: top;
-  border-right: 1px solid #e9ecef;
+  border-right: 1px solid #e3dede;
 }
 
 .results-table td:last-child {
@@ -200,7 +200,7 @@
 /* Column Specific Styles */
 .id-column {
   font-weight: 600;
-  color: #007bff;
+  color: #0032FF;
   min-width: 60px;
 }
 
@@ -210,7 +210,7 @@
 }
 
 .name-column strong {
-  color: #333;
+  color: #373030;
 }
 
 .year-column {
@@ -229,12 +229,12 @@
 }
 
 .badge-format {
-  display: inline-block;
-  padding: 4px 10px;
-  background-color: #6c757d;
-  color: white;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.badge-format-different {
+  color: #2DEA55;
   font-weight: 600;
 }
 
@@ -242,7 +242,7 @@
 .subgenre-column {
   min-width: 120px;
   font-size: 0.85rem;
-  color: #555;
+  color: #7f7f7f;
 }
 
 .imdb-column {
@@ -250,7 +250,7 @@
 }
 
 .imdb-link {
-  color: #007bff;
+  color: #0032FF;
   text-decoration: none;
   font-family: monospace;
 }
@@ -265,7 +265,7 @@
   min-width: 150px;
   max-width: 200px;
   font-size: 0.85rem;
-  color: #555;
+  color: #7f7f7f;
 }
 
 .simply-column {
@@ -276,7 +276,7 @@
 .badge-linked {
   display: inline-block;
   padding: 4px 10px;
-  background-color: #28a745;
+  background-color: #2DEA55;
   color: white;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -286,7 +286,7 @@
 .badge-not-linked {
   display: inline-block;
   padding: 4px 10px;
-  background-color: #dc3545;
+  background-color: #e10037;
   color: white;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -301,7 +301,7 @@
 .badge {
   display: inline-block;
   padding: 4px 10px;
-  background-color: #28a745;
+  background-color: #2DEA55;
   color: white;
   border-radius: 12px;
   font-size: 0.85rem;
@@ -315,7 +315,7 @@
 
 .view-btn {
   padding: 6px 12px;
-  background-color: #007bff;
+  background-color: #0032FF;
   color: white;
   border: none;
   border-radius: 4px;
@@ -325,7 +325,7 @@
 }
 
 .view-btn:hover {
-  background-color: #0056b3;
+  background-color: #0026BF;
 }
 
 /* Responsive Design */

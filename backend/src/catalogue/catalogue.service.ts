@@ -69,6 +69,7 @@ export class CatalogueService {
     const results: {
       programme: any; // Type étendu avec format, genre, subgenre
       launches: Launch[];
+      simplyDataStatus: string;
     }[] = [];
 
     // ← LA BOUCLE FOR : On parcourt chaque programme trouvé
@@ -80,6 +81,12 @@ export class CatalogueService {
         },
       });
 
+      const externalIds = await this.externalIdRepo.find({
+        where: { ID_PROGRAMME: programme.ID },
+      });
+
+      const simplyDataStatus = externalIds.length > 0 ? 'Linked' : 'Not Linked';
+
       // Construire l'objet résultat enrichi
       results.push({
         programme: {
@@ -90,6 +97,7 @@ export class CatalogueService {
           GENRE_TITLE: programme['genre']?.NAME || null,
         },
         launches: launches,
+        simplyDataStatus: simplyDataStatus,
       });
     }
 

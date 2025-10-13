@@ -273,42 +273,45 @@
               }
             </div>
           }
-
-          @if (simply.broadcasts.length > 0) {
-            <div class="simply-broadcasts">
-              <h3 class="subsection-title clickable" (click)="toggleSimplyBroadcasts()">
-                Simply Broadcasts ({{ simply.broadcasts.length }}) {{ isSimplyBroadcastsExpanded ? "▼" : "▶" }}
-              </h3>
-
-              @if (isSimplyBroadcastsExpanded) {
-                <table class="simply-broadcasts-table">
-                  <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Start Time</th>
-                    <th>Duration</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    @for (broadcast of simply.broadcasts; track broadcast.ID) {
-                      <tr>
-                        <td>{{ broadcast.BROADCAST_TITLE }}</td>
-                        <td>
-                          {{ formatDate(broadcast.START_TIME) }} -
-                          {{ formatTime(convertDateToTime(broadcast.START_TIME)) }}
-                        </td>
-                        <td>
-                          {{ broadcast.DURATION ? broadcast.DURATION + " min" : "N/A" }}
-                        </td>
-                      </tr>
-                    }
-                  </tbody>
-                </table>
-              }
-            </div>
-          }
         </div>
       }
+
+              <!-- Simply Broadcasts Section -->
+              @if (simply && simply.broadcasts && simply.broadcasts.length > 0) {
+                <div class="simply-broadcasts">
+                  <h3 class="subsection-title collapsible-header" (click)="toggleSimplyBroadcasts()">
+                    Simply Broadcasts ({{ simply.broadcasts.length }})
+                    <span class="arrow">{{ isSimplyBroadcastsExpanded ? "▼" : "▶" }}</span>
+                  </h3>
+
+                  @if (isSimplyBroadcastsExpanded) {
+                    <div class="simply-broadcasts-table-wrapper">
+                      <table class="simply-broadcasts-table">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Duration</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (broadcast of simply.broadcasts; track broadcast.ID || $index) {
+                            <tr>
+                              <td>{{ broadcast.ID_SIMPLY || broadcast.ID || "N/A" }}</td>
+                              <td>{{ broadcast.BROADCAST_TITLE || "N/A" }}</td>
+                              <td>{{ broadcast.START_TIME || "N/A" }}</td>
+                              <td>{{ broadcast.END_TIME || "N/A" }}</td>
+                              <td>{{ broadcast.DURATION ? broadcast.DURATION + " min" : "N/A" }}</td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                </div>
+              }
     </div>
   }
 </div>

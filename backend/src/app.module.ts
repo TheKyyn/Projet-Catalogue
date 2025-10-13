@@ -8,6 +8,9 @@ import { ConfigModule } from '@nestjs/config';
 import { Programme } from './catalogue/entities/programme.entity';
 import { Launch } from './catalogue/entities/launch.entity';
 import { ExternalId } from './catalogue/entities/external-id.entity';
+import { FormatsName } from './catalogue/entities/formats-name.entity';
+import { Genre } from './catalogue/entities/genre.entity';
+import { Subgenre } from './catalogue/entities/subgenre.entity';
 import { SimplyProgramme } from './broadcast/entities/simply-programme.entity';
 import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
 import { BrNotaLaunch } from './broadcast/entities/br-nota-launch.entity';
@@ -52,7 +55,7 @@ import { LocalDescriptionsNota } from './broadcast/entities/local-descriptions-n
       serviceName: process.env.NOTA_SERVICE,
       username: process.env.NOTA_USER,
       password: process.env.NOTA_PASSWORD,
-      entities: [Programme, Launch, ExternalId],
+      entities: [Programme, Launch, ExternalId, FormatsName, Genre, Subgenre],
       synchronize: false, // Important: ne pas modifier le schéma en preprod
       logging: true,
     }),

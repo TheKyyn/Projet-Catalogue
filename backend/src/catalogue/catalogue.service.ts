@@ -4,6 +4,9 @@ import { Repository, Like } from 'typeorm';
 import { Programme } from './entities/programme.entity';
 import { Launch } from './entities/launch.entity';
 import { ExternalId } from './entities/external-id.entity';
+import { FormatsName } from './entities/formats-name.entity';
+import { Genre } from './entities/genre.entity';
+import { Subgenre } from './entities/subgenre.entity';
 
 @Injectable()
 export class CatalogueService {
@@ -17,15 +20,41 @@ export class CatalogueService {
 
     @InjectRepository(ExternalId, 'nota')
     private externalIdRepo: Repository<ExternalId>,
+
+    @InjectRepository(FormatsName, 'nota')
+    private formatsNameRepo: Repository<FormatsName>,
+
+    @InjectRepository(Genre, 'nota')
+    private genreRepo: Repository<Genre>,
+
+    @InjectRepository(Subgenre, 'nota')
+    private subgenreRepo: Repository<Subgenre>,
   ) {}
 
   // *** MÉTHODE : Recherche par titre ***
   // Cette fonction sera appelée depuis le controller
   async searchByTitle(title: string) {
-    // 1. Chercher les programmes dont le titre contient la recherche
-    // Utilisation de UPPER() pour une recherche insensible à la casse
+    // 1. Chercher les programmes avec LEFT JOIN pour récupérer les noms
     const programmes = await this.programmeRepo
       .createQueryBuilder('p')
+      .leftJoinAndMapOne(
+        'p.format', // Map le résultat dans une propriété "format"
+        FormatsName,
+        'f',
+        'p.ID_FORMAT = f.ID',
+      )
+      .leftJoinAndMapOne(
+        'p.subgenre', // Map le résultat dans une propriété "subgenre"
+        Subgenre,
+        's',
+        'p.ID_SUBGENRE = s.ID',
+      )
+      .leftJoinAndMapOne(
+        'p.genre', // Map le résultat dans une propriété "genre"
+        Genre,
+        'g',
+        's.ID_GENRE = g.ID', // Le genre vient du subgenre
+      )
       .where('UPPER(p.ORIGINAL_TITLE) LIKE UPPER(:title)', {
         title: `%${title}%`,
       })
@@ -37,7 +66,10 @@ export class CatalogueService {
       .getMany();
 
     // 2. Pour chaque programme, récupérer ses launches
-    const results: { programme: Programme; launches: Launch[] }[] = []; // Typage du tableau results
+    const results: {
+      programme: any; // Type étendu avec format, genre, subgenre
+      launches: Launch[];
+    }[] = [];
 
     // ← LA BOUCLE FOR : On parcourt chaque programme trouvé
     for (const programme of programmes) {
@@ -48,9 +80,15 @@ export class CatalogueService {
         },
       });
 
-      // Construire l'objet résultat
+      // Construire l'objet résultat enrichi
       results.push({
-        programme: programme,
+        programme: {
+          ...programme,
+          // Ajouter les noms pour le frontend
+          FORMAT_TITLE: programme['format']?.NAME || null,
+          SUBGENRE_TITLE: programme['subgenre']?.NAME || null,
+          GENRE_TITLE: programme['genre']?.NAME || null,
+        },
         launches: launches,
       });
     }

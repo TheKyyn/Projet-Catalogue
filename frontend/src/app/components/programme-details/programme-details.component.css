@@ -614,6 +614,10 @@
   }
 }
 
+.launches-table td:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .details-container {
     padding: 1rem;

@@ -19,7 +19,6 @@
 }
 
 .subtitle {
-  color: #7f7f7f;
   font-size: 1.1rem;
 }
 
@@ -233,7 +232,7 @@
 }
 
 .badge-format-different {
-  color: #2DEA55;
+  color: #629d00;
   font-weight: 600;
 }
 
@@ -241,7 +240,6 @@
 .subgenre-column {
   min-width: 120px;
   font-size: 0.85rem;
-  color: #7f7f7f;
 }
 
 .imdb-column {
@@ -264,7 +262,6 @@
   min-width: 150px;
   max-width: 200px;
   font-size: 0.85rem;
-  color: #7f7f7f;
 }
 
 .simply-column {

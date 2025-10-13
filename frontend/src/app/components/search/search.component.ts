@@ -47,6 +47,7 @@ export class SearchComponent {
     this.catalogueService.searchProgrammes(this.searchTerm).subscribe({
       next: (response) => {
         this.results = response.results;
+        console.log('Search results:', this.results);
         this.loading = false;
       },
       error: (err) => {

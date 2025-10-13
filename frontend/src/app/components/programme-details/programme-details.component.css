@@ -505,6 +505,16 @@
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
+.imdb-link {
+  color: #0000FF;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.imdb-link:hover {
+  text-decoration: underline;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .details-container {

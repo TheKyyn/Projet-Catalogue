@@ -4,280 +4,312 @@
 
   <!-- Loading -->
   @if (loading) {
-  <div class="loading">
-    <div class="spinner"></div>
-    <p>Loading details...</p>
-  </div>
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading details...</p>
+    </div>
   }
 
   <!-- Error -->
   @if (error && !loading) {
-  <div class="error-box">
-    <h2>❌ Error</h2>
-    <p>{{ error }}</p>
-    <button class="btn-primary" (click)="goBack()">Back</button>
-  </div>
+    <div class="error-box">
+      <h2>❌ Error</h2>
+      <p>{{ error }}</p>
+      <button class="btn-primary" (click)="goBack()">Back</button>
+    </div>
   }
 
   <!-- Contenu principal -->
   @if (programme && !loading) {
-  <div class="content">
-    <!-- Header du programme -->
-    <div class="programme-header">
-      <div class="header-content">
-        <h1 class="programme-title">
-          {{ programme.ORIGINAL_TITLE || programme.NAME }}
-        </h1>
-        @if (programme.YEAR) {
-        <span class="year-badge">{{ programme.YEAR }}</span>
-        }
-      </div>
-
-      @if (programme.NAME && programme.NAME !== programme.ORIGINAL_TITLE) {
-      <p class="alternative-title">{{ programme.NAME }}</p>
-      }
-    </div>
-
-    <!-- Program information -->
-    <div class="programme-info-card">
-      <h2 class="section-title">📋 Program Information</h2>
-
-      <div class="info-grid">
-        @if (programme.EXECUTIVE_PRODUCER) {
-        <div class="info-item">
-          <span class="info-label">Executive Producer</span>
-          <span class="info-value">{{ programme.EXECUTIVE_PRODUCER }}</span>
-        </div>
-        } @if (programme.HOST_CAST) {
-        <div class="info-item">
-          <span class="info-label">Cast / Host</span>
-          <span class="info-value">{{ programme.HOST_CAST }}</span>
-        </div>
-        } @if (programme.DIRECTOR) {
-        <div class="info-item">
-          <span class="info-label">Director</span>
-          <span class="info-value">{{ programme.DIRECTOR }}</span>
-        </div>
-        } @if (programme.ID_IMDB) {
-        <div class="info-item">
-          <span class="info-label">IMDB ID</span>
-          <span class="info-value">{{ programme.ID_IMDB }}</span>
-        </div>
-        }
-      </div>
-
-      @if (programme.SUMMARY) {
-      <div class="summary-section">
-        <h3 class="subsection-title">Summary</h3>
-        <p class="summary-text">{{ programme.SUMMARY }}</p>
-      </div>
-      } @if (programme.DESCRIPTION && programme.DESCRIPTION !==
-      programme.SUMMARY) {
-      <div class="description-section">
-        <h3 class="subsection-title">Description</h3>
-        <p class="description-text">{{ programme.DESCRIPTION }}</p>
-      </div>
-      }
-    </div>
-
-    <!-- Launches -->
-    <div class="launches-card">
-      <h2 class="section-title">📺 Launches ({{ launches.length }})</h2>
-
-      @if (launches.length === 0) {
-      <p class="no-data">No launches available for this program.</p>
-      } @else {
-      <table class="launches-table">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Launch Date</th>
-            <th>Episodes</th>
-            <th>Duration</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (launch of launches; track launch.ID) {
-          <tr>
-            <td>{{ launch.LOCAL_TITLE || launch.TRANSLATED_TITLE }}</td>
-            <td>{{ formatDate(launch.LAUNCH_DATE) }}</td>
-            <td>{{ launch.NUMBER_OF_EPISODES || "N/A" }}</td>
-            <td>
-              {{
-                launch.TYPICAL_DURATION
-                  ? launch.TYPICAL_DURATION + " min"
-                  : "N/A"
-              }}
-            </td>
-          </tr>
+    <div class="content">
+      <!-- Header du programme -->
+      <div class="programme-header">
+        <div class="header-content">
+          <h1 class="programme-title">
+            {{ programme.ORIGINAL_TITLE || programme.NAME }}
+          </h1>
+          @if (programme.YEAR) {
+            <span class="year-badge">{{ programme.YEAR }}</span>
           }
-        </tbody>
-      </table>
-      }
-    </div>
+        </div>
 
-    <!-- Available countries -->
-    <div class="countries-card">
-      <h2 class="section-title">
-        🌍 Broadcasts by Country ({{ availableCountries.length }})
-      </h2>
-
-      @if (availableCountries.length === 0) {
-      <p class="no-data">No broadcasts found in MyETV databases.</p>
-      } @else {
-      <p class="instruction">Click on a country to view broadcast details</p>
-
-      <div class="countries-grid">
-        @for (country of availableCountries; track country) {
-        <button
-          class="country-button"
-          [class.active]="selectedCountry === country"
-          (click)="loadCountryBroadcasts(country)"
-        >
-          {{ country }}
-          @if (selectedCountry === country) {
-          <span class="arrow">▼</span>
-          } @else {
-          <span class="arrow">▶</span>
-          }
-        </button>
+        @if (programme.NAME && programme.NAME !== programme.ORIGINAL_TITLE) {
+          <p class="alternative-title">{{ programme.NAME }}</p>
         }
       </div>
 
-      <!-- Selected country broadcasts -->
-      @if (selectedCountry) {
-      <div class="broadcasts-section">
-        <h3 class="subsection-title">📡 Broadcasts in {{ selectedCountry }}</h3>
+      <!-- Program information -->
+      <div class="programme-info-card">
+        <h2 class="section-title">📋 Program Information</h2>
 
-        @if (loadingBroadcasts) {
-        <div class="loading-small">
-          <div class="spinner-small"></div>
-          <span>Loading...</span>
+        <div class="info-grid">
+          @if (programme.EXECUTIVE_PRODUCER) {
+            <div class="info-item">
+              <span class="info-label">Executive Producer</span>
+              <span class="info-value">{{ programme.EXECUTIVE_PRODUCER }}</span>
+            </div>
+          }
+          @if (programme.HOST_CAST) {
+            <div class="info-item">
+              <span class="info-label">Cast / Host</span>
+              <span class="info-value">{{ programme.HOST_CAST }}</span>
+            </div>
+          }
+          @if (programme.DIRECTOR) {
+            <div class="info-item">
+              <span class="info-label">Director</span>
+              <span class="info-value">{{ programme.DIRECTOR }}</span>
+            </div>
+          }
+          @if (programme.ID_IMDB) {
+            <div class="info-item">
+              <span class="info-label">IMDB</span>
+              <a href="https://imdb.com/title/{{ programme.ID_IMDB }}/" target="_blank" rel="noopener noreferrer"
+                 class="info-value imdb-link"
+              >
+                {{ programme.ID_IMDB }}
+              </a>
+            </div>
+          }
         </div>
-        } @if (!loadingBroadcasts && countryBroadcasts.length === 0) {
-        <p class="no-data">No broadcasts found for this country.</p>
-        } @if (!loadingBroadcasts && countryBroadcasts.length > 0) {
-        <div class="broadcasts-table-wrapper">
-          <table class="broadcasts-table">
+
+        @if (programme.SUMMARY) {
+          <div class="summary-section">
+            <h3 class="subsection-title">Summary</h3>
+            <p class="summary-text">{{ programme.SUMMARY }}</p>
+          </div>
+        }
+        @if (programme.DESCRIPTION && programme.DESCRIPTION !==
+        programme.SUMMARY) {
+          <div class="description-section">
+            <h3 class="subsection-title">Description</h3>
+            <p class="description-text">{{ programme.DESCRIPTION }}</p>
+          </div>
+        }
+      </div>
+
+      <!-- Launches -->
+      <div class="launches-card">
+        <h2 class="section-title">📺 Launches ({{ launches.length }})</h2>
+
+        @if (launches.length === 0) {
+          <p class="no-data">No launches available for this program.</p>
+        } @else {
+          <table class="launches-table">
             <thead>
-              <tr>
-                <th>Date</th>
-                <th>Start Time</th>
-                <th>Duration</th>
-                <th>Audience (RAT)</th>
-                <th>TVR</th>
-                <th>Reach</th>
-                <th>Share</th>
-              </tr>
+            <tr>
+              <th>Title</th>
+              <th>Launch Date</th>
+              <th>Episodes</th>
+              <th>Duration</th>
+            </tr>
             </thead>
             <tbody>
-              @for (broadcast of countryBroadcasts; track
-              broadcast.ID_BROADCAST) {
-              <tr>
-                <td>{{ formatDate(broadcast.BROADCAST_DATE) }}</td>
-                <td>{{ formatTime(broadcast.BEGIN_TIME) }}</td>
-                <td>{{ broadcast.DURATION }} min</td>
-                <td>{{ broadcast.RAT_PERCENTAGE || "N/A" }}</td>
-                <td>{{ broadcast.TVR_PERCENTAGE || "N/A" }}</td>
-                <td>{{ broadcast.RCH_PERCENTAGE || "N/A" }}</td>
-                <td>{{ broadcast.SHR_PERCENTAGE || "N/A" }}</td>
-              </tr>
+              @for (launch of launches; track launch.ID) {
+                <tr>
+                  <td>
+                    @if (launch.ID_PUBLICATION_STATUS === 1) {
+                      <a [href]="'http://localhost:3000/broadcast/search?idLaunch=' + launch.ID" target="_blank"
+                         rel="noopener noreferrer">
+                        {{ launch.LOCAL_TITLE || launch.TRANSLATED_TITLE }}
+                      </a>
+                    } @else {
+                      <span class="disabled-link" title="Not published">
+                  {{ launch.LOCAL_TITLE || launch.TRANSLATED_TITLE }}
+                </span>
+                    }
+                  </td>
+                  <td>{{ formatDate(launch.LAUNCH_DATE) }}</td>
+                  <td>{{ launch.NUMBER_OF_EPISODES || "N/A" }}</td>
+                  <td>
+                    {{
+                      launch.TYPICAL_DURATION
+                        ? launch.TYPICAL_DURATION + " min"
+                        : "N/A"
+                    }}
+                  </td>
+                </tr>
               }
             </tbody>
           </table>
-        </div>
         }
       </div>
-      } }
-    </div>
 
-    <!-- Simply Data -->
-    @if (simply && (simply.programmes.length > 0 || simply.broadcasts.length >
-    0)) {
-    <div class="simply-card">
-      <h2 class="section-title">🎬 Simply Data</h2>
+      <!-- Available countries -->
+      <div class="countries-card">
+        <h2 class="section-title">
+          🌍 Broadcasts by Country ({{ availableCountries.length }})
+        </h2>
 
-      @if (simply.programmes.length > 0) {
-      <div class="simply-programmes">
-        @for (prog of simply.programmes; track prog.ID) {
-        <div class="simply-programme-item">
-          <h3 class="simply-title">{{ prog.TITLE }}</h3>
+        @if (availableCountries.length === 0) {
+          <p class="no-data">No broadcasts found in MyETV databases.</p>
+        } @else {
+          <p class="instruction">Click on a country to view broadcast details</p>
 
-          <div class="simply-details">
-            @if (prog.CATEGORY) {
-            <span class="badge">{{ prog.CATEGORY }}</span>
-            } @if (prog.GENRE_1_NAME) {
-            <span class="badge genre">{{ prog.GENRE_1_NAME }}</span>
-            } @if (prog.GENRE_2_NAME) {
-            <span class="badge genre">{{ prog.GENRE_2_NAME }}</span>
-            } @if (prog.RELEASE_YEAR) {
-            <span class="badge year">{{ prog.RELEASE_YEAR }}</span>
+          <div class="countries-grid">
+            @for (country of availableCountries; track country) {
+              <button
+                class="country-button"
+                [class.active]="selectedCountry === country"
+                (click)="loadCountryBroadcasts(country)"
+              >
+                {{ country }}
+                @if (selectedCountry === country) {
+                  <span class="arrow">▼</span>
+                } @else {
+                  <span class="arrow">▶</span>
+                }
+              </button>
             }
           </div>
 
-          @if (prog.DESCRIPTION) {
-          <p class="simply-description">{{ prog.DESCRIPTION }}</p>
+          <!-- Selected country broadcasts -->
+          @if (selectedCountry) {
+            <div class="broadcasts-section">
+              <h3 class="subsection-title">📡 Broadcasts in {{ selectedCountry }}</h3>
+
+              @if (loadingBroadcasts) {
+                <div class="loading-small">
+                  <div class="spinner-small"></div>
+                  <span>Loading...</span>
+                </div>
+              }
+              @if (!loadingBroadcasts && countryBroadcasts.length === 0) {
+                <p class="no-data">No broadcasts found for this country.</p>
+              }
+              @if (!loadingBroadcasts && countryBroadcasts.length > 0) {
+                <div class="broadcasts-table-wrapper">
+                  <table class="broadcasts-table">
+                    <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Start Time</th>
+                      <th>Duration</th>
+                      <th>Audience (RAT)</th>
+                      <th>TVR</th>
+                      <th>Reach</th>
+                      <th>Share</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      @for (broadcast of countryBroadcasts; track
+                        broadcast.ID_BROADCAST) {
+                        <tr>
+                          <td>{{ formatDate(broadcast.BROADCAST_DATE) }}</td>
+                          <td>{{ formatTime(broadcast.BEGIN_TIME) }}</td>
+                          <td>{{ broadcast.DURATION }} min</td>
+                          <td>{{ broadcast.RAT_PERCENTAGE || "N/A" }}</td>
+                          <td>{{ broadcast.TVR_PERCENTAGE || "N/A" }}</td>
+                          <td>{{ broadcast.RCH_PERCENTAGE || "N/A" }}</td>
+                          <td>{{ broadcast.SHR_PERCENTAGE || "N/A" }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+
+      <!-- Simply Data -->
+      @if (simply && (simply.programmes.length > 0 || simply.broadcasts.length >
+        0)) {
+        <div class="simply-card">
+          <h2 class="section-title">🎬 Simply Data</h2>
+
+          @if (simply.programmes.length > 0) {
+            <div class="simply-programmes">
+              @for (prog of simply.programmes; track prog.ID) {
+                <div class="simply-programme-item">
+                  <h3 class="simply-title">{{ prog.TITLE }}</h3>
+
+                  <div class="simply-details">
+                    @if (prog.CATEGORY) {
+                      <span class="badge">{{ prog.CATEGORY }}</span>
+                    }
+                    @if (prog.GENRE_1_NAME) {
+                      <span class="badge genre">{{ prog.GENRE_1_NAME }}</span>
+                    }
+                    @if (prog.GENRE_2_NAME) {
+                      <span class="badge genre">{{ prog.GENRE_2_NAME }}</span>
+                    }
+                    @if (prog.RELEASE_YEAR) {
+                      <span class="badge year">{{ prog.RELEASE_YEAR }}</span>
+                    }
+                  </div>
+
+                  @if (prog.DESCRIPTION) {
+                    <p class="simply-description">{{ prog.DESCRIPTION }}</p>
+                  }
+
+                  <div class="simply-meta">
+                    @if (prog.PRODUCTION_COMPANY) {
+                      <div class="meta-item">
+                        <strong>Production:</strong> {{ prog.PRODUCTION_COMPANY }}
+                      </div>
+                    }
+                    @if (prog.PRODUCTION_COUNTRIES) {
+                      <div class="meta-item">
+                        <strong>Countries:</strong> {{ prog.PRODUCTION_COUNTRIES }}
+                      </div>
+                    }
+                    @if (prog.ID_IMDB) {
+                      <div class="meta-item">
+                        <strong>IMDB:</strong>
+                        <a [href]="'https://www.imdb.com/title/' + prog.ID_IMDB" target="_blank"
+                           rel="noopener noreferrer">
+                          {{ prog.ID_IMDB }}
+                        </a>
+                      </div>
+                    }
+                    @if (prog.ID_TMDB) {
+                      <div class="meta-item">
+                        <strong>TMDB:</strong> {{ prog.ID_TMDB }}
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
           }
 
-          <div class="simply-meta">
-            @if (prog.PRODUCTION_COMPANY) {
-            <div class="meta-item">
-              <strong>Production:</strong> {{ prog.PRODUCTION_COMPANY }}
+          @if (simply.broadcasts.length > 0) {
+            <div class="simply-broadcasts">
+              <h3 class="subsection-title clickable" (click)="toggleSimplyBroadcasts()">
+                Simply Broadcasts ({{ simply.broadcasts.length }}) {{ isSimplyBroadcastsExpanded ? "▼" : "▶" }}
+              </h3>
+
+              @if (isSimplyBroadcastsExpanded) {
+                <table class="simply-broadcasts-table">
+                  <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Start Time</th>
+                    <th>Duration</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    @for (broadcast of simply.broadcasts; track broadcast.ID) {
+                      <tr>
+                        <td>{{ broadcast.BROADCAST_TITLE }}</td>
+                        <td>
+                          {{ formatDate(broadcast.START_TIME) }} -
+                          {{ formatTime(convertDateToTime(broadcast.START_TIME)) }}
+                        </td>
+                        <td>
+                          {{ broadcast.DURATION ? broadcast.DURATION + " min" : "N/A" }}
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              }
             </div>
-            } @if (prog.PRODUCTION_COUNTRIES) {
-            <div class="meta-item">
-              <strong>Countries:</strong> {{ prog.PRODUCTION_COUNTRIES }}
-            </div>
-            } @if (prog.ID_IMDB) {
-            <div class="meta-item">
-              <strong>IMDB:</strong> {{ prog.ID_IMDB }}
-            </div>
-            } @if (prog.ID_TMDB) {
-            <div class="meta-item">
-              <strong>TMDB:</strong> {{ prog.ID_TMDB }}
-            </div>
-            }
-          </div>
+          }
         </div>
-        }
-      </div>
-      }
-
-      @if (simply.broadcasts.length > 0) {
-      <div class="simply-broadcasts">
-        <h3 class="subsection-title clickable" (click)="toggleSimplyBroadcasts()">
-          Simply Broadcasts ({{ simply.broadcasts.length }}) {{ isSimplyBroadcastsExpanded ? "▼" : "▶" }}
-        </h3>
-
-        @if (isSimplyBroadcastsExpanded) {
-        <table class="simply-broadcasts-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Start Time</th>
-              <th>Duration</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (broadcast of simply.broadcasts; track broadcast.ID) {
-            <tr>
-              <td>{{ broadcast.BROADCAST_TITLE }}</td>
-              <td>
-                {{ formatDate(broadcast.START_TIME) }} -
-                {{ formatTime(convertDateToTime(broadcast.START_TIME)) }}
-              </td>
-              <td>
-                {{ broadcast.DURATION ? broadcast.DURATION + " min" : "N/A" }}
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-        }
-      </div>
       }
     </div>
-    }
-  </div>
   }
 </div>

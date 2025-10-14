@@ -223,6 +223,9 @@
               @for (prog of simply.programmes; track prog.ID) {
                 <div class="simply-programme-item">
                   <h3 class="simply-title">{{ prog.TITLE }}</h3>
+                  @if (prog.EPISODE_TITLE) {
+                    <h4 class="simply-episode-title">{{ prog.EPISODE_TITLE }}</h4>
+                  }
 
                   <div class="simply-details">
                     @if (prog.CATEGORY) {
@@ -244,6 +247,11 @@
                   }
 
                   <div class="simply-meta">
+                    @if (prog.CREDITS) {
+                      <div class="meta-item">
+                        <strong>Credits:</strong> {{ prog.CREDITS }}
+                      </div>
+                    }
                     @if (prog.PRODUCTION_COMPANY) {
                       <div class="meta-item">
                         <strong>Production:</strong> {{ prog.PRODUCTION_COMPANY }}
@@ -289,20 +297,21 @@
                       <table class="simply-broadcasts-table">
                         <thead>
                           <tr>
-                            <th>ID</th>
+                            <th>Channel</th>
                             <th>Title</th>
                             <th>Start Time</th>
-                            <th>End Time</th>
                             <th>Duration</th>
                           </tr>
                         </thead>
                         <tbody>
                           @for (broadcast of simply.broadcasts; track broadcast.ID || $index) {
                             <tr>
-                              <td>{{ broadcast.ID_SIMPLY || broadcast.ID || "N/A" }}</td>
+                              <td>{{ broadcast.CHANNEL_NAME || "N/A" }}</td>
                               <td>{{ broadcast.BROADCAST_TITLE || "N/A" }}</td>
-                              <td>{{ broadcast.START_TIME || "N/A" }}</td>
-                              <td>{{ broadcast.END_TIME || "N/A" }}</td>
+                              <td>
+                                {{ formatDate(broadcast.START_TIME) }} -
+                                {{ formatTime(convertDateToTime(broadcast.START_TIME)) }}
+                              </td>
                               <td>{{ broadcast.DURATION ? broadcast.DURATION + " min" : "N/A" }}</td>
                             </tr>
                           }

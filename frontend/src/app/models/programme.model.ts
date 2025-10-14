@@ -66,12 +66,14 @@ export interface SimplyProgramme {
   ID_IMDB?: string;
   ID_TMDB?: string;
   TITLE?: string;
+  EPISODE_TITLE?: string;
   CATEGORY?: string;
   GENRE_1_NAME?: string;
   GENRE_2_NAME?: string;
   RELEASE_YEAR?: number;
   PRODUCTION_COUNTRIES?: string;
   PRODUCTION_COMPANY?: string;
+  CREDITS?: string;
   DESCRIPTION?: string;
 }
 
@@ -82,6 +84,7 @@ export interface SimplyBroadcast {
   START_TIME?: string;
   END_TIME?: string;
   DURATION?: number;
+  CHANNEL_NAME?: string;
 }
 
 /**

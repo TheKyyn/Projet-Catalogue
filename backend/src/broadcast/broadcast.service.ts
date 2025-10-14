@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { BrNotaLaunch } from './entities/br-nota-launch.entity';
 import { SimplyBroadcast } from './entities/simply-broadcast.entity';
 import { SimplyProgramme } from './entities/simply-programme.entity';
+import { SimplyChannel } from './entities/simply-channel.entity';
 import { Broadcast } from './entities/broadcast.entity';
 import { Region } from './entities/region.entity';
 import { LocalDescriptionsNota } from './entities/local-descriptions-nota.entity';
@@ -20,6 +21,9 @@ export class BroadcastService {
 
     @InjectRepository(SimplyProgramme, 'myetv')
     private simplyProgrammeRepo: Repository<SimplyProgramme>,
+
+    @InjectRepository(SimplyChannel, 'myetv')
+    private simplyChannelRepo: Repository<SimplyChannel>,
 
     @InjectRepository(Broadcast, 'myetv')
     private broadcastRepo: Repository<Broadcast>,
@@ -207,12 +211,28 @@ export class BroadcastService {
       if (programmes.length > 0) {
         simplyData.programmes.push(...programmes);
 
-        // Pour chaque programme Simply, récupérer ses broadcasts
+        // Pour chaque programme Simply, récupérer ses broadcasts avec le nom de la chaîne
         for (const prog of programmes) {
-          const broadcasts = await this.simplyBroadcastRepo.find({
-            where: { ID_SIMPLY_PROGRAMME: prog.ID_SIMPLY },
-          });
-          simplyData.broadcasts.push(...broadcasts);
+          const broadcasts = await this.simplyBroadcastRepo
+            .createQueryBuilder('b')
+            .leftJoinAndMapOne(
+              'b.channel',
+              SimplyChannel,
+              'c',
+              'b.ID_SIMPLY_CHANNEL = c.ID_SIMPLY',
+            )
+            .where('b.ID_SIMPLY_PROGRAMME = :progId', {
+              progId: prog.ID_SIMPLY,
+            })
+            .getMany();
+
+          // Ajouter le nom de la chaîne dans chaque broadcast
+          const enrichedBroadcasts = broadcasts.map((broadcast) => ({
+            ...broadcast,
+            CHANNEL_NAME: broadcast['channel']?.NAME || null,
+          }));
+
+          simplyData.broadcasts.push(...enrichedBroadcasts);
         }
       }
     }

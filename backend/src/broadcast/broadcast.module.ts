@@ -5,6 +5,7 @@ import { BroadcastService } from './broadcast.service';
 import { BrNotaLaunch } from './entities/br-nota-launch.entity';
 import { SimplyBroadcast } from './entities/simply-broadcast.entity';
 import { SimplyProgramme } from './entities/simply-programme.entity';
+import { SimplyChannel } from './entities/simply-channel.entity';
 import { Broadcast } from './entities/broadcast.entity';
 import { Region } from './entities/region.entity';
 import { LocalDescriptionsNota } from './entities/local-descriptions-nota.entity';
@@ -17,6 +18,7 @@ import { LocalDescriptionsNota } from './entities/local-descriptions-nota.entity
         BrNotaLaunch,
         SimplyBroadcast,
         SimplyProgramme,
+        SimplyChannel,
         Broadcast,
         Region,
         LocalDescriptionsNota,

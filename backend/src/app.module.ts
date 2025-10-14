@@ -13,6 +13,7 @@ import { Genre } from './catalogue/entities/genre.entity';
 import { Subgenre } from './catalogue/entities/subgenre.entity';
 import { SimplyProgramme } from './broadcast/entities/simply-programme.entity';
 import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
+import { SimplyChannel } from './broadcast/entities/simply-channel.entity';
 import { BrNotaLaunch } from './broadcast/entities/br-nota-launch.entity';
 import { Broadcast } from './broadcast/entities/broadcast.entity';
 import { Region } from './broadcast/entities/region.entity';
@@ -37,6 +38,7 @@ import { LocalDescriptionsNota } from './broadcast/entities/local-descriptions-n
       entities: [
         SimplyProgramme,
         SimplyBroadcast,
+        SimplyChannel,
         BrNotaLaunch,
         Broadcast,
         Region,

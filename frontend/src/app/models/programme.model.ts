@@ -85,7 +85,12 @@ export interface SimplyBroadcast {
   START_TIME?: string;
   END_TIME?: string;
   DURATION?: number;
+  DURATION_SIMPLY?: string;
+  ACCURATE_START_TIME?: string;
+  ACCURATE_END_TIME?: string;
   CHANNEL_NAME?: string;
+  CHANNEL_COUNTRY?: string;
+  CHANNEL_NAME_MYETV?: string;
 }
 
 /**

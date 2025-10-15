@@ -230,6 +230,8 @@ export class BroadcastService {
           const enrichedBroadcasts = broadcasts.map((broadcast) => ({
             ...broadcast,
             CHANNEL_NAME: broadcast['channel']?.NAME || null,
+            CHANNEL_COUNTRY: broadcast['channel']?.COUNTRY_CODE || null,
+            CHANNEL_NAME_MYETV: broadcast['channel']?.NAME_MYETV || null,
           }));
 
           simplyData.broadcasts.push(...enrichedBroadcasts);

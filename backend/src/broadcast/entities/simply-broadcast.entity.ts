@@ -22,7 +22,7 @@ export class SimplyBroadcast {
   ID_SIMPLY_CHANNEL: number;
 
   // Titre du broadcast (peut être différent du titre du programme)
-  @Column({ type: 'varchar', length: 250, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   BROADCAST_TITLE: string;
 
   // Heure annoncée du début de diffusion

@@ -298,21 +298,59 @@
                         <thead>
                           <tr>
                             <th>Channel</th>
+                            <th>Country</th>
                             <th>Title</th>
-                            <th>Start Time</th>
+                            <th>Start Time (Announced)</th>
+                            <th>Start Time (Accurate)</th>
+                            <th>End Time</th>
                             <th>Duration</th>
                           </tr>
                         </thead>
                         <tbody>
                           @for (broadcast of simply.broadcasts; track broadcast.ID || $index) {
                             <tr>
-                              <td>{{ broadcast.CHANNEL_NAME || "N/A" }}</td>
+                              <td>
+                                <div>{{ broadcast.CHANNEL_NAME || "N/A" }}</div>
+                                @if (broadcast.CHANNEL_NAME_MYETV && broadcast.CHANNEL_NAME_MYETV !== broadcast.CHANNEL_NAME) {
+                                  <small style="color: #666;">(MyETV: {{ broadcast.CHANNEL_NAME_MYETV }})</small>
+                                }
+                              </td>
+                              <td>{{ broadcast.CHANNEL_COUNTRY || "N/A" }}</td>
                               <td>{{ broadcast.BROADCAST_TITLE || "N/A" }}</td>
                               <td>
-                                {{ formatDate(broadcast.START_TIME) }} -
-                                {{ formatTime(convertDateToTime(broadcast.START_TIME)) }}
+                                @if (broadcast.START_TIME) {
+                                  {{ formatDate(broadcast.START_TIME) }} -
+                                  {{ formatTime(convertDateToTime(broadcast.START_TIME)) }}
+                                } @else {
+                                  N/A
+                                }
                               </td>
-                              <td>{{ broadcast.DURATION ? broadcast.DURATION + " min" : "N/A" }}</td>
+                              <td>
+                                @if (broadcast.ACCURATE_START_TIME) {
+                                  {{ formatDate(broadcast.ACCURATE_START_TIME) }} -
+                                  {{ formatTime(convertDateToTime(broadcast.ACCURATE_START_TIME)) }}
+                                } @else {
+                                  N/A
+                                }
+                              </td>
+                              <td>
+                                @if (broadcast.END_TIME) {
+                                  {{ formatDate(broadcast.END_TIME) }} -
+                                  {{ formatTime(convertDateToTime(broadcast.END_TIME)) }}
+                                } @else {
+                                  N/A
+                                }
+                              </td>
+                              <td>
+                                @if (broadcast.DURATION) {
+                                  {{ broadcast.DURATION }} min
+                                  @if (broadcast.DURATION_SIMPLY && broadcast.DURATION_SIMPLY !== broadcast.DURATION.toString()) {
+                                    <br><small style="color: #666;">(Simply: {{ broadcast.DURATION_SIMPLY }})</small>
+                                  }
+                                } @else {
+                                  N/A
+                                }
+                              </td>
                             </tr>
                           }
                         </tbody>

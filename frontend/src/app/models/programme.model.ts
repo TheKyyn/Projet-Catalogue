@@ -18,6 +18,7 @@ export interface Programme {
   FORMAT_TITLE?: string;
   GENRE_TITLE?: string;
   SUBGENRE_TITLE?: string;
+  PRODUCERS_NAMES?: string;
 }
 
 /**

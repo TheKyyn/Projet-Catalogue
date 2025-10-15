@@ -69,7 +69,7 @@
                 <th>Subgenre</th>
                 <th>IMDB ID</th>
                 <th>Director</th>
-                <th>Executive Producer</th>
+                <th>Producer Companies</th>
                 <th>Host/Cast</th>
                 <th>Simply Data</th>
                 <th>Launches</th>
@@ -112,8 +112,8 @@
                   <td class="director-column" [title]="item.programme.DIRECTOR || ''">
                     {{ truncateText(item.programme.DIRECTOR, 50) }}
                   </td>
-                  <td class="producer-column" [title]="item.programme.EXECUTIVE_PRODUCER || ''">
-                    {{ truncateText(item.programme.EXECUTIVE_PRODUCER, 50) }}
+                  <td class="producer-column" [title]="item.programme.PRODUCERS_NAMES || ''">
+                    {{ truncateText(item.programme.PRODUCERS_NAMES, 50) }}
                   </td>
                   <td class="cast-column" [title]="item.programme.HOST_CAST || ''">
                     {{ truncateText(item.programme.HOST_CAST, 50) }}

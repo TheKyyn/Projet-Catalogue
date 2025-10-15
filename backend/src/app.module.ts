@@ -11,6 +11,8 @@ import { ExternalId } from './catalogue/entities/external-id.entity';
 import { FormatsName } from './catalogue/entities/formats-name.entity';
 import { Genre } from './catalogue/entities/genre.entity';
 import { Subgenre } from './catalogue/entities/subgenre.entity';
+import { Producer } from './catalogue/entities/producer.entity';
+import { ProgrammeProducer } from './catalogue/entities/programme-producer.entity';
 import { SimplyProgramme } from './broadcast/entities/simply-programme.entity';
 import { SimplyBroadcast } from './broadcast/entities/simply-broadcast.entity';
 import { SimplyChannel } from './broadcast/entities/simply-channel.entity';
@@ -57,7 +59,16 @@ import { LocalDescriptionsNota } from './broadcast/entities/local-descriptions-n
       serviceName: process.env.NOTA_SERVICE,
       username: process.env.NOTA_USER,
       password: process.env.NOTA_PASSWORD,
-      entities: [Programme, Launch, ExternalId, FormatsName, Genre, Subgenre],
+      entities: [
+        Programme,
+        Launch,
+        ExternalId,
+        FormatsName,
+        Genre,
+        Subgenre,
+        Producer,
+        ProgrammeProducer,
+      ],
       synchronize: false, // Important: ne pas modifier le schéma en preprod
       logging: true,
     }),

@@ -7,6 +7,8 @@ import { ExternalId } from './entities/external-id.entity';
 import { FormatsName } from './entities/formats-name.entity';
 import { Genre } from './entities/genre.entity';
 import { Subgenre } from './entities/subgenre.entity';
+import { Producer } from './entities/producer.entity';
+import { ProgrammeProducer } from './entities/programme-producer.entity';
 
 @Injectable()
 export class CatalogueService {
@@ -29,6 +31,12 @@ export class CatalogueService {
 
     @InjectRepository(Subgenre, 'nota')
     private subgenreRepo: Repository<Subgenre>,
+
+    @InjectRepository(Producer, 'nota')
+    private producerRepo: Repository<Producer>,
+
+    @InjectRepository(ProgrammeProducer, 'nota')
+    private programmeProducerRepo: Repository<ProgrammeProducer>,
   ) {}
 
   // *** MÉTHODE : Recherche par titre ***
@@ -87,6 +95,21 @@ export class CatalogueService {
 
       const simplyDataStatus = externalIds.length > 0 ? 'Linked' : 'Not Linked';
 
+      // Récupérer les producteurs du programme via double jointure
+      const programmeProducers = await this.programmeProducerRepo.find({
+        where: { ID_PROGRAMME: programme.ID },
+      });
+
+      const producerNames: string[] = [];
+      for (const pp of programmeProducers) {
+        const producer = await this.producerRepo.findOne({
+          where: { ID: pp.ID_PRODUCER },
+        });
+        if (producer && producer.NAME) {
+          producerNames.push(producer.NAME);
+        }
+      }
+
       // Construire l'objet résultat enrichi
       results.push({
         programme: {
@@ -95,6 +118,7 @@ export class CatalogueService {
           FORMAT_TITLE: programme['format']?.NAME || null,
           SUBGENRE_TITLE: programme['subgenre']?.NAME || null,
           GENRE_TITLE: programme['genre']?.NAME || null,
+          PRODUCERS_NAMES: producerNames.join(', ') || null,
         },
         launches: launches,
         simplyDataStatus: simplyDataStatus,

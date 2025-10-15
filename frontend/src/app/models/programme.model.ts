@@ -76,6 +76,9 @@ export interface SimplyProgramme {
   PRODUCTION_COMPANY?: string;
   CREDITS?: string;
   DESCRIPTION?: string;
+  CHANNEL_NAME?: string;
+  CHANNEL_COUNTRY?: string;
+  ID_SIMPLY_CHANNEL?: number;
 }
 
 export interface SimplyBroadcast {

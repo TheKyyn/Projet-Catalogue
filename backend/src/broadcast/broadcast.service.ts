@@ -209,8 +209,6 @@ export class BroadcastService {
       });
 
       if (programmes.length > 0) {
-        simplyData.programmes.push(...programmes);
-
         // Pour chaque programme Simply, récupérer ses broadcasts avec le nom de la chaîne
         for (const prog of programmes) {
           const broadcasts = await this.simplyBroadcastRepo
@@ -225,6 +223,19 @@ export class BroadcastService {
               progId: prog.ID_SIMPLY,
             })
             .getMany();
+
+          // Récupérer la chaîne du premier broadcast (si existe)
+          const firstChannel = broadcasts.length > 0 ? broadcasts[0]['channel'] : null;
+
+          // Ajouter les infos de chaîne au programme
+          const enrichedProgramme = {
+            ...prog,
+            CHANNEL_NAME: firstChannel?.NAME || null,
+            CHANNEL_COUNTRY: firstChannel?.COUNTRY_CODE || null,
+            ID_SIMPLY_CHANNEL: broadcasts.length > 0 ? broadcasts[0].ID_SIMPLY_CHANNEL : null,
+          };
+
+          simplyData.programmes.push(enrichedProgramme);
 
           // Ajouter le nom de la chaîne dans chaque broadcast
           const enrichedBroadcasts = broadcasts.map((broadcast) => ({

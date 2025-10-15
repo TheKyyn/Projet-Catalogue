@@ -106,7 +106,7 @@
             </thead>
             <tbody>
               @for (launch of launches; track launch.ID) {
-                <tr 
+                <tr
                   [class.clickable-row]="launch.ID_PUBLICATION_STATUS === 1"
                   [class.disabled-row]="launch.ID_PUBLICATION_STATUS !== 1"
                   (click)="launch.ID_PUBLICATION_STATUS === 1 && openLaunch(launch.ID)"
@@ -226,16 +226,24 @@
 
                   <div class="simply-details">
                     @if (prog.CATEGORY) {
-                      <span class="badge">{{ prog.CATEGORY }}</span>
+                      <div class="meta-item">
+                        <strong>Kind:</strong> <span class="badge">{{ prog.CATEGORY }}</span>
+                      </div>
                     }
                     @if (prog.GENRE_1_NAME) {
-                      <span class="badge genre">{{ prog.GENRE_1_NAME }}</span>
+                      <div class="meta-item">
+                        <strong>Genre:</strong> <span class="badge genre">{{ prog.GENRE_1_NAME }}</span>
+                      </div>
                     }
                     @if (prog.GENRE_2_NAME) {
-                      <span class="badge genre">{{ prog.GENRE_2_NAME }}</span>
+                      <div class="meta-item">
+                        <strong>Subgenre:</strong> <span class="badge genre">{{ prog.GENRE_2_NAME }}</span>
+                      </div>
                     }
                     @if (prog.RELEASE_YEAR) {
-                      <span class="badge year">{{ prog.RELEASE_YEAR }}</span>
+                      <div class="meta-item">
+                        <strong>Year:</strong> <span class="badge year">{{ prog.RELEASE_YEAR }}</span>
+                      </div>
                     }
                   </div>
 
@@ -244,6 +252,17 @@
                   }
 
                   <div class="simply-meta">
+                    @if (prog.CHANNEL_NAME) {
+                      <div class="meta-item">
+                        <strong>Simply Channel:</strong> {{ prog.CHANNEL_NAME }}
+                        @if (prog.CHANNEL_COUNTRY) {
+                          ({{ prog.CHANNEL_COUNTRY }})
+                        }
+                        @if (prog.ID_SIMPLY_CHANNEL) {
+                          <small style="color: #666;"> - ID: {{ prog.ID_SIMPLY_CHANNEL }}</small>
+                        }
+                      </div>
+                    }
                     @if (prog.CREDITS) {
                       <div class="meta-item">
                         <strong>Credits:</strong> {{ prog.CREDITS }}

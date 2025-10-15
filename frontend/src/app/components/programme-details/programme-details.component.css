@@ -271,6 +271,20 @@
   border-bottom: none;
 }
 
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.disabled-row {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.disabled-row:hover {
+  background-color: #f8f8f8 !important;
+}
+
 .launches-table td,
 .broadcasts-table td {
   padding: 12px 8px;

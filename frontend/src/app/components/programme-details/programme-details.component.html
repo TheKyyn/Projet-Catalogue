@@ -106,17 +106,14 @@
             </thead>
             <tbody>
               @for (launch of launches; track launch.ID) {
-                <tr>
+                <tr 
+                  [class.clickable-row]="launch.ID_PUBLICATION_STATUS === 1"
+                  [class.disabled-row]="launch.ID_PUBLICATION_STATUS !== 1"
+                  (click)="launch.ID_PUBLICATION_STATUS === 1 && openLaunch(launch.ID)"
+                  [title]="launch.ID_PUBLICATION_STATUS === 1 ? 'Click to view on e-nota.com' : 'Not published'"
+                >
                   <td>
-                    @if (launch.ID_PUBLICATION_STATUS === 1) {
-                      <a [href]="'https://www.e-nota.com/card/' + launch.ID" target="_blank" rel="noopener noreferrer">
-                        {{ launch.LOCAL_TITLE || launch.TRANSLATED_TITLE }}
-                      </a>
-                    } @else {
-                      <span class="disabled-link" title="Not published">
-                  {{ launch.LOCAL_TITLE || launch.TRANSLATED_TITLE }}
-                </span>
-                    }
+                    {{ launch.LOCAL_TITLE || launch.TRANSLATED_TITLE }}
                   </td>
                   <td>{{ formatDate(launch.LAUNCH_DATE) }}</td>
                   <td>{{ launch.NUMBER_OF_EPISODES || "N/A" }}</td>

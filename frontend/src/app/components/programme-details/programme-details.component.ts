@@ -145,6 +145,13 @@ export class ProgrammeDetailsComponent implements OnInit {
   }
 
   /**
+   * Opens launch page in e-nota.com
+   */
+  openLaunch(launchId: number): void {
+    window.open(`https://www.e-nota.com/card/${launchId}`, '_blank');
+  }
+
+  /**
    * Toggles Simply Broadcasts section visibility
    */
   toggleSimplyBroadcasts(): void {

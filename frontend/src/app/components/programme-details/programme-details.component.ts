@@ -17,7 +17,7 @@ import {
   styleUrls: ['./programme-details.component.css'],
 })
 export class ProgrammeDetailsComponent implements OnInit {
-  // Program data
+  // Programme data
   programme: Programme | null = null;
   launches: Launch[] = [];
   availableCountries: string[] = [];

@@ -48,13 +48,13 @@ export class ProgrammeDetailsComponent implements OnInit {
     if (id) {
       this.loadProgrammeDetails(+id);
     } else {
-      this.error = 'Missing program ID';
+      this.error = 'Missing programme ID';
       this.loading = false;
     }
   }
 
   /**
-   * Loads program details
+   * Loads programme details
    */
   loadProgrammeDetails(id: number): void {
     this.loading = true;
@@ -69,8 +69,8 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading program:', err);
-        this.error = 'Unable to load program details';
+        console.error('Error loading programme:', err);
+        this.error = 'Unable to load programme details';
         this.loading = false;
       },
     });

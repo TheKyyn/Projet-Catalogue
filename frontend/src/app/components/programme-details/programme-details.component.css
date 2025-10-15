@@ -292,6 +292,11 @@
   color: #7f7f7f;
 }
 
+.disabled-link:hover {
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 /* Countries Section */
 .instruction {
   color: #7f7f7f;
@@ -390,10 +395,6 @@
 
 .badge.genre {
   background-color: #7f7f7f;
-}
-
-.badge.year {
-  background-color: #2DEA55;
 }
 
 .simply-description {

@@ -1,7 +1,7 @@
 <div class="search-container">
   <div class="search-header">
     <h1>🎬 Catalogue Project</h1>
-    <p class="subtitle">Search for TV programs and broadcasts</p>
+    <p class="subtitle">Search for TV programmes and broadcasts</p>
   </div>
 
   <!-- Search bar -->
@@ -11,7 +11,7 @@
         type="text"
         [(ngModel)]="searchTerm"
         name="searchTerm"
-        placeholder="Search for a program... (e.g. Breaking Bad, Game of Thrones)"
+        placeholder="Search for a programme... (e.g. Breaking Bad, Game of Thrones)"
         class="search-input"
         [class.error]="error"
       />
@@ -44,12 +44,12 @@
   @if (searched && !loading) {
     <div class="results-section">
       <h2 class="results-title">
-        {{ results.length > 0 ? results.length + ' program(s) found' : 'No results' }}
+        {{ results.length > 0 ? results.length + ' programme(s) found' : 'No results' }}
       </h2>
 
       @if (results.length === 0) {
         <div class="no-results">
-          <p>😕 No program matches your search.</p>
+          <p>😕 No programmes matches your search.</p>
           <p class="hint">Try another title or check the spelling.</p>
         </div>
       }
